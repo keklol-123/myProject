@@ -36,11 +36,11 @@
 
 ##### Инструкция по запуску:
 + Склонировать репозиторий:<br/>
-	`$git clone https://github.com/keklol-123/myProject.git <ваша папка>`
+	`$ git clone https://github.com/keklol-123/myProject.git <ваша папка>`
 + Установить необходимые пакеты:<br/>
-	`$npm i`
+	`$ npm i`
 + Собрать проект:<br/>
-	`$npm start`
+	`$ npm start`
 
 
 
