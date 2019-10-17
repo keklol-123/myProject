@@ -21,6 +21,8 @@
     "webpack-cli": "^3.3.9"
   },
   "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.5",
     "react": "^16.9.0",
     "react-dom": "^16.9.0"
   }
