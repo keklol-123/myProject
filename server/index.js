@@ -18,9 +18,9 @@ app.post("/signup", bodyParser.json(), (req, res) => {
   user.save(err => {
     if (err) {
       console.error(err);
-      res.status(500).send({ message: "error_registration" });
+      res.status(500).send({ message: "error_registration", success: false });
     } else {
-      res.status(200).send({ message: "registered_successfully" });
+      res.status(200).send({ message: "registered_successfully", success: true });
     }
   });
 });
@@ -31,7 +31,7 @@ app.post("/login", bodyParser.json(), (req, res) => {
   User.findOne({ email, password }).exec((err, user) => {
     if (err) {
       console.log(err);
-      res.status(500).send({ message: "login_failed" });
+      res.status(500).send({ message: "login_failed", success: false });
     } else {
       res.status(200).send(user);
     }
@@ -49,9 +49,9 @@ app.post("/addlink", bodyParser.json(), (req, res) => {
     .exec((err, user) => {
       if (err) {
         console.log(err);
-        res.status(500).send({ message: "addlink_failed" });
+        res.status(500).send({ message: "addlink_failed", success: false });
       } else {
-        res.status(200).send({ message: "add_success" });
+        res.status(200).send({ message: "add_success", success: true});
       }
     });
 });
@@ -70,9 +70,9 @@ app.post("/removelink", bodyParser.json(), (req, res) => {
     .exec((err, _) => {
       if (err) {
         console.log(err);
-        res.status(500).send({ message: "failed_to_delete" });
+        res.status(500).send({ message: "failed_to_delete" , success: false});
       } else {
-        res.status(200).send({ message: "delete_successfully" });
+        res.status(200).send({ message: "delete_successfully" , success: true});
       }
     });
 });
@@ -93,108 +93,6 @@ async function start() {
 }
 
 start();
-
-const addUser = userData => {
-  User.findOne(
-    {
-      email: userData.email
-    },
-    (err, user) => {
-      if (user) console.log("user exists");
-      else new User(userData).save();
-    }
-  );
-};
-
-const getUser = email => {
-  return User.find({
-    email: email
-  });
-};
-
-const addUserLink = (newLink, email) => {
-  User.findOne({
-    email: email
-  })
-    .then(res => res.links)
-    .then(links => {
-      if (!links.map(val => val.link).includes(newLink)) {
-        User.update(
-          {
-            email: email
-          },
-          {
-            $push: {
-              links: {
-                link: newLink,
-                price: 1221
-              }
-            }
-          },
-          {
-            runValidators: true
-          },
-          function(err, raw) {
-            if (err) return handleError(err);
-            console.log("The raw response from Mongo was ", raw);
-          }
-        );
-      } else console.log(`${newLink} is already exists`);
-    })
-    .catch(e => {
-      console.error(e);
-    });
-};
-
-const removeUserLink = (link, email) => {
-  User.findOne({
-    email: email
-  })
-    .then(res => res.links)
-    .then(links => {
-      const newLinks = links.filter(val => val.link != link);
-      User.update(
-        {
-          email: email
-        },
-        {
-          links: newLinks
-        },
-        function(err, raw) {
-          if (err) return handleError(err);
-          console.log("The raw response from Mongo was ", raw);
-        }
-      );
-    });
-};
-
-// addUser({
-//     email: "keklol@gmail.com",
-//     password: "123456",
-//     links: [{
-//             link: "kek.com",
-//             price: 123
-//         },
-
-//         {
-//             link: "asdfak.com",
-//             price: 123
-//         },
-
-//     ]
-// })
-
-// removeUserLink("kek.com", "keklol@gmail.com")
-// // removeUserLink("asdfak.com", "keklol@gmail.com")
-
-// addUserLink("new.com", "keklol@gmail.com")
-// addUserLink("new1.com", "keklol@gmail.com")
-// addUserLink("new2.com", "keklol@gmail.com")
-
-// removeUserLink("new.com", "keklol@gmail.com")
-
-// setTimeout(()=>removeUserLink("new1.com", "keklol@gmail.com"), 4000)
-// setTimeout(()=>removeUserLink("new2.com", "keklol@gmail.com"), 6000)
 
 app.use(express.static(__dirname + "/../public"));
 
