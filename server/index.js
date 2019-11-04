@@ -14,13 +14,22 @@ app.post("/signup", bodyParser.json(), (req, res) => {
 
   console.log(email, password);
 
-  const user = new User({ email, password });
+  const user = new User({
+    email,
+    password
+  });
   user.save(err => {
     if (err) {
       console.error(err);
-      res.status(500).send({ message: "error_registration", success: false });
+      res.status(500).send({
+        message: "error_registration",
+        success: false
+      });
     } else {
-      res.status(200).send({ message: "registered_successfully", success: true });
+      res.status(200).send({
+        message: "registered_successfully",
+        success: true
+      });
     }
   });
 });
@@ -28,10 +37,16 @@ app.post("/signup", bodyParser.json(), (req, res) => {
 app.post("/login", bodyParser.json(), (req, res) => {
   const { email, password } = req.body;
 
-  User.findOne({ email, password }).exec((err, user) => {
+  User.findOne({
+    email,
+    password
+  }).exec((err, user) => {
     if (err) {
       console.log(err);
-      res.status(500).send({ message: "login_failed", success: false });
+      res.status(500).send({
+        message: "login_failed",
+        success: false
+      });
     } else {
       res.status(200).send(user);
     }
@@ -40,18 +55,30 @@ app.post("/login", bodyParser.json(), (req, res) => {
 
 app.post("/addlink", bodyParser.json(), (req, res) => {
   const { email, password, newLink } = req.body;
-  User.findOne({ email, password })
+  User.findOne({
+    email,
+    password
+  })
     .update({
       $push: {
-        links: { link: newLink, price: 228 }
+        links: {
+          link: newLink,
+          price: 228
+        }
       }
     })
     .exec((err, user) => {
       if (err) {
         console.log(err);
-        res.status(500).send({ message: "addlink_failed", success: false });
+        res.status(500).send({
+          message: "addlink_failed",
+          success: false
+        });
       } else {
-        res.status(200).send({ message: "add_success", success: true});
+        res.status(200).send({
+          message: "add_success",
+          success: true
+        });
       }
     });
 });
@@ -59,7 +86,10 @@ app.post("/addlink", bodyParser.json(), (req, res) => {
 app.post("/removelink", bodyParser.json(), (req, res) => {
   const { email, password, linkToRemove } = req.body;
 
-  User.findOne({ email, password })
+  User.findOne({
+    email,
+    password
+  })
     .update({
       $pull: {
         links: {
@@ -70,9 +100,15 @@ app.post("/removelink", bodyParser.json(), (req, res) => {
     .exec((err, _) => {
       if (err) {
         console.log(err);
-        res.status(500).send({ message: "failed_to_delete" , success: false});
+        res.status(500).send({
+          message: "failed_to_delete",
+          success: false
+        });
       } else {
-        res.status(200).send({ message: "delete_successfully" , success: true});
+        res.status(200).send({
+          message: "delete_successfully",
+          success: true
+        });
       }
     });
 });
@@ -91,6 +127,79 @@ async function start() {
     console.log(e);
   }
 }
+const addUser = userData => {
+  User.findOne(
+    {
+      email: userData.email
+    },
+    (err, user) => {
+      if (user) console.log("user exists");
+      else new User(userData).save();
+    }
+  );
+};
+
+const getUser = email => {
+  return User.find({
+    email: email
+  });
+};
+
+const addUserLink = (newLink, email) => {
+  User.findOne({
+    email: email
+  })
+    .then(res => res.links)
+    .then(links => {
+      if (!links.map(val => val.link).includes(newLink)) {
+        User.update(
+          {
+            email: email
+          },
+          {
+            $push: {
+              links: {
+                link: newLink,
+                price: 1221
+              }
+            }
+          },
+          {
+            runValidators: true
+          },
+          function(err, raw) {
+            if (err) return handleError(err);
+            console.log("The raw response from Mongo was ", raw);
+          }
+        );
+      } else console.log(`${newLink} is already exists`);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+};
+
+const removeUserLink = (link, email) => {
+  User.findOne({
+    email: email
+  })
+    .then(res => res.links)
+    .then(links => {
+      const newLinks = links.filter(val => val.link != link);
+      User.update(
+        {
+          email: email
+        },
+        {
+          links: newLinks
+        },
+        function(err, raw) {
+          if (err) return handleError(err);
+          console.log("The raw response from Mongo was ", raw);
+        }
+      );
+    });
+};
 
 start();
 
