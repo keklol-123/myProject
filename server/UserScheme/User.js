@@ -12,8 +12,14 @@ const user = new mongoose.Schema({
     },
     links: {
         type: [{
-            link: String,
-            price: String
+            link: {
+                unique: true,
+                type: String
+            },
+            price: {
+                type: String,
+                required: true
+            }
         }],
         validate: {
             validator: function(array) {
@@ -23,10 +29,33 @@ const user = new mongoose.Schema({
         }
     },
 });
+user.pre('update', function (next) {
+    console.log(this._conditions)
+    const links = new Set(this.getUpdate().links.map(val => val.link))
+    User.find
+    let newLinks = [];
+    
+    links.forEach(link => {
+        let price;
+        this.links.forEach(val => {
+            if (val.link == link)
+                price = val.price;
 
+        })
+        newLinks.push({
+            link: val,
+            price: price
+        })
+    });
+    console.log(newLinks)
+    this.links = newLinks;
+    next()
+})
 
 
 const User = mongoose.model("User", user);
+
+
 
 
 

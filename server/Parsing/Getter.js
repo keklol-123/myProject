@@ -1,9 +1,14 @@
-const request = require('request-promise');
+const puppeteer = require('puppeteer');
 
 const getHtml = async (link) => {
-   let html;
-   await request(link).then(val => {html = val})
-   return html
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  
+  await page.goto(link);
+
+  let bodyHTML = await page.evaluate(() => document.body.innerHTML);
+
+  return bodyHTML
 } 
 
 

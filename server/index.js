@@ -4,6 +4,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 
 const User = require("./UserScheme/User");
+const getPrice = require('./Parsing/Parser')
 const app = express();
 
 mongoose.set("useNewUrlParser", true);
@@ -53,8 +54,11 @@ app.post("/login", bodyParser.json(), (req, res) => {
   });
 });
 
-app.post("/addlink", bodyParser.json(), (req, res) => {
+app.post("/addlink", bodyParser.json(), async (req, res) => {
+  
   const { email, password, newLink } = req.body;
+  let price;
+  const z = await getPrice(newLink).then((res) => {price = res})
   User.findOne({
     email,
     password
@@ -63,7 +67,7 @@ app.post("/addlink", bodyParser.json(), (req, res) => {
       $push: {
         links: {
           link: newLink,
-          price: 228
+          price: price
         }
       }
     })
@@ -116,7 +120,7 @@ app.post("/removelink", bodyParser.json(), (req, res) => {
 async function start() {
   try {
     await mongoose.connect(
-      `mongodb+srv://gleb:glebgleb@mypetdb-mp6fc.mongodb.net/test?retryWrites=true&w=majority`,
+      `mongodb://gleb:glebgleb@mypetdb-shard-00-00-mp6fc.mongodb.net:27017,mypetdb-shard-00-01-mp6fc.mongodb.net:27017,mypetdb-shard-00-02-mp6fc.mongodb.net:27017/test?ssl=true&replicaSet=myPetDB-shard-0&authSource=admin&retryWrites=true&w=majority`,
       err => {
         if (err) console.log(err);
         else console.log("Connected to DB");
@@ -202,6 +206,11 @@ const removeUserLink = (link, email) => {
 };
 
 start();
+
+
+const checkChanges = require('./ChangeChecker/index')();
+
+
 
 app.use(express.static(__dirname + "/../public"));
 

@@ -1,28 +1,31 @@
-const getHtml = require('./Getter');
 
-const cheerio = require('cheerio');
+const cheerio = require('cheerio')
+const getHtml = require('./Getter')
 
-const getPrice = (link) => {
+const aliNormalize= require('./Normalize/AliExpress')
 
-    if (link.includes('ebay')){
-       getHtml(link).then((html) => {
-        console.log(cheerio.load(html)("[itemprop='price']").text())
-    })
+
+const getPrice = async (link) => {
+
+    if (link.includes('aliexpress')){
+
+        let currentPrice;
+        return await getHtml(link).then(html => {
+            currentPrice = parseFloat(cheerio.load(html)('[itemprop="price"]').html().replace(/[&#;a-zB-Z]/g, '').replace(/A0/g, '').replace(/,/g, '.'))
+            return currentPrice
+        })
 
     }
-    if(link.includes('ozon')){
-        console.log(11)
-        getHtml(link).then((html) => {
-            console.log(cheerio.load(html)('.price-number').text())
-    })
-}
+
+
 
     
-    // getHtml(link).then((html) => {
-    //     console.log(cheerio.load(html)('.product-details__price--value', '.price-sale').text().slice(1))
-    // })
+   
 }
 
-getPrice('https://www.ebay.com/itm/Oakley-Flight-Jacket-Sunglasses-OO9401-1237-White-Prizm-Ruby-Lens/254346291304?_trkparms=pageci%3A3d7206d4-fcd4-11e9-bd77-74dbd18023d5%7Cparentrq%3A2832397516e0a9cbb824b167fff9404a%7Ciid%3A1')
+// getPrice('https://ru.aliexpress.com/item/32893513513.html?spm=a2g0v.best.8.7.1feaMqLkMqLkly&scm=1007.17258.143211.0&pvid=7b19c1cb-5a0e-4597-a172-b1bde7705772').then(val => console.log(val))
+// getPrice('https://ru.aliexpress.com/item/32887843572.html?spm=a2g0o.detail.1000023.1.56193a75P9FXUt').then(val => console.log(val))
+// getPrice('https://ru.aliexpress.com/item/1000005913175.html?spm=a2g0v.best.8.13.1feaMqLkMqLkly&scm=1007.17258.143211.0&pvid=7b19c1cb-5a0e-4597-a172-b1bde7705772').then(val => console.log(val))
 
-getPrice('https://www.ozon.ru/context/detail/id/160742817/')
+
+module.exports = getPrice
