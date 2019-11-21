@@ -11,7 +11,10 @@ mongoose.set("useNewUrlParser", true);
 mongoose.set("useUnifiedTopology", true);
 
 app.post("/signup", bodyParser.json(), (req, res) => {
-  const { email, password } = req.body;
+  const {
+    email,
+    password
+  } = req.body;
 
   console.log(email, password);
 
@@ -36,7 +39,10 @@ app.post("/signup", bodyParser.json(), (req, res) => {
 });
 
 app.post("/login", bodyParser.json(), (req, res) => {
-  const { email, password } = req.body;
+  const {
+    email,
+    password
+  } = req.body;
 
   User.findOne({
     email,
@@ -55,14 +61,20 @@ app.post("/login", bodyParser.json(), (req, res) => {
 });
 
 app.post("/addlink", bodyParser.json(), async (req, res) => {
-  
-  const { email, password, newLink } = req.body;
-  let price;
-  const z = await getPrice(newLink).then((res) => {price = res})
-  User.findOne({
+
+  const {
     email,
-    password
+    password,
+    newLink
+  } = req.body;
+  let price;
+  const z = await getPrice(newLink).then((res) => {
+    price = res
   })
+  User.findOne({
+      email,
+      password
+    })
     .update({
       $push: {
         links: {
@@ -88,12 +100,16 @@ app.post("/addlink", bodyParser.json(), async (req, res) => {
 });
 
 app.post("/removelink", bodyParser.json(), (req, res) => {
-  const { email, password, linkToRemove } = req.body;
+  const {
+    email,
+    password,
+    linkToRemove
+  } = req.body;
 
   User.findOne({
-    email,
-    password
-  })
+      email,
+      password
+    })
     .update({
       $pull: {
         links: {
@@ -132,8 +148,7 @@ async function start() {
   }
 }
 const addUser = userData => {
-  User.findOne(
-    {
+  User.findOne({
       email: userData.email
     },
     (err, user) => {
@@ -151,27 +166,24 @@ const getUser = email => {
 
 const addUserLink = (newLink, email) => {
   User.findOne({
-    email: email
-  })
+      email: email
+    })
     .then(res => res.links)
     .then(links => {
       if (!links.map(val => val.link).includes(newLink)) {
-        User.update(
-          {
+        User.update({
             email: email
-          },
-          {
+          }, {
             $push: {
               links: {
                 link: newLink,
                 price: 1221
               }
             }
-          },
-          {
+          }, {
             runValidators: true
           },
-          function(err, raw) {
+          function (err, raw) {
             if (err) return handleError(err);
             console.log("The raw response from Mongo was ", raw);
           }
@@ -185,19 +197,17 @@ const addUserLink = (newLink, email) => {
 
 const removeUserLink = (link, email) => {
   User.findOne({
-    email: email
-  })
+      email: email
+    })
     .then(res => res.links)
     .then(links => {
       const newLinks = links.filter(val => val.link != link);
-      User.update(
-        {
+      User.update({
           email: email
-        },
-        {
+        }, {
           links: newLinks
         },
-        function(err, raw) {
+        function (err, raw) {
           if (err) return handleError(err);
           console.log("The raw response from Mongo was ", raw);
         }
@@ -205,15 +215,31 @@ const removeUserLink = (link, email) => {
     });
 };
 
-start();
+const changePrice = (newPrice, link, email, password) => {
+    User.findOneAndUpdate({
+      email,
+      password
+    }, {
+      "links.link": link
+    }, {
+      "$set": {
+        "links.$.price": newPrice
+      }
+    })
+  }
+
+    setTimeout(() => changePrice(228, 'https://ru.aliexpress.com/item/32882500634.html?spm=a2g0v.best.6.7.1feaMqLkMqLkly&scm=1007.17258.143211.0&pvid=595d12a0-b4dd-4b57-8c20-89d69fc3f588', 'keklol@gmail.com', '123456'), 10000)
 
 
-const checkChanges = require('./ChangeChecker/index')();
+    start();
+
+
+    // const checkChanges = require('./ChangeChecker/index')();
 
 
 
-app.use(express.static(__dirname + "/../public"));
+    app.use(express.static(__dirname + "/../public"));
 
-app.use("/", function(request, response) {
-  response.sendFile(path.resolve(__dirname, "/../public/index.html"));
-});
+    app.use("/", function (request, response) {
+      response.sendFile(path.resolve(__dirname, "/../public/index.html"));
+    });

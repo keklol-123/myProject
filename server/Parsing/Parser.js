@@ -11,7 +11,8 @@ const getPrice = async (link) => {
 
         let currentPrice;
         return await getHtml(link).then(html => {
-            currentPrice = parseFloat(cheerio.load(html)('[itemprop="price"]').html().replace(/[&#;a-zB-Z]/g, '').replace(/A0/g, '').replace(/,/g, '.'))
+            currentPrice = aliNormalize(cheerio.load(html)('[itemprop="price"]').html())
+            
             return currentPrice
         })
 

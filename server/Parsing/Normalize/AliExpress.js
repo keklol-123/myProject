@@ -1,17 +1,7 @@
 const normalize = price => {
   return parseFloat(
-    removeCommas(price)
-      .split('')
-      .filter(val => val != ' ')
-      .join(''),
+    price.replace(/[&#;a-zB-Z]/g, '').replace(/A0/g, '').replace(/,/g, '.')
   );
-};
-
-const removeCommas = price => {
-  let newPrice = price;
-
-  while (newPrice.includes(',')) newPrice = newPrice.replace(',', '.');
-  return newPrice;
 };
 
 module.exports = normalize;
