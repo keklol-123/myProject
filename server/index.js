@@ -2,10 +2,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 
 const User = require('./UserScheme/User');
 const getPrice = require('./Parsing/Parser');
+const withAuth = require('./Middleware/middleware');
 const app = express();
+
+app.use(cookieParser())
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useUnifiedTopology', true);
@@ -38,10 +44,45 @@ app.post('/signup', bodyParser.json(), (req, res) => {
 app.post('/login', bodyParser.json(), (req, res) => {
   const { email, password } = req.body;
 
-  User.findOne({
-    email,
-    password,
-  }).exec((err, user) => {
+  User.findOne(
+    {
+      email,
+    },
+    (err, user) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({
+          message: 'logined_successfully',
+          success: true,
+        });
+      } else if (!user) {
+        res.status(401).json({
+          message: 'incorrect email or password',
+          success: false,
+        });
+      } else {
+        user.isCorrectPassword(password, (err, same) => {
+          if (err) {
+            res.status(500).json({
+              message: 'Internal error, please try again',
+              success: false,
+            });
+          } else if (!same) {
+            res.status(401).json({
+              message: 'incorrect email or password',
+              success: false,
+            });
+          } else {
+            const payload = { email };
+            const token = jwt.sign(payload, secret, {
+              expiresIn: '24h',
+            });
+            res.cookie('token', token, { httpOnly: true }).sendStatus(200);
+          }
+        });
+      }
+    },
+  ).exec((err, user) => {
     if (err) {
       console.log(err);
       res.status(500).send({
