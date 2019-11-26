@@ -11,10 +11,13 @@ const getPrice = require('./Parsing/Parser');
 const withAuth = require('./Middleware/middleware');
 const app = express();
 
+const secret = 'pricewatcher'
+
 app.use(cookieParser())
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useUnifiedTopology', true);
+mongoose.set('useCreateIndex', true);
 
 app.post('/signup', bodyParser.json(), (req, res) => {
   const { email, password } = req.body;
@@ -72,13 +75,7 @@ app.post('/login', bodyParser.json(), (req, res) => {
               message: 'incorrect email or password',
               success: false,
             });
-          } else {
-            const payload = { email };
-            const token = jwt.sign(payload, secret, {
-              expiresIn: '24h',
-            });
-            res.cookie('token', token, { httpOnly: true }).sendStatus(200);
-          }
+          } 
         });
       }
     },
@@ -90,10 +87,35 @@ app.post('/login', bodyParser.json(), (req, res) => {
         success: false,
       });
     } else {
-      res.status(200).send(user);
+      const payload = {user};
+            const token = jwt.sign(payload, secret, {
+              expiresIn: '24h',
+            });
+      User.findOneAndUpdate({email: user.email},{$push: {
+        tokens: {token: token}
+      }}).exec((err, res) => {
+        if (err)
+          console.log(err)
+        else 
+          console.log(res)
+      })
+      res.cookie('token', token, { httpOnly: true }).status(200).send(user);
+
+     
     }
   });
 });
+
+app.post('/checkToken',bodyParser.json() ,(req, res) => {
+  const {token} = req.body;
+
+  User.findOne({'tokens.token': token}, (err, user) => {
+    if(err)
+      console.log(err);
+    else 
+      res.status(200).send(user.links)
+  })
+})
 
 app.post('/addlink', bodyParser.json(), async (req, res) => {
   const { email, password, newLink } = req.body;
@@ -103,7 +125,6 @@ app.post('/addlink', bodyParser.json(), async (req, res) => {
   });
   User.findOne({
     email,
-    password,
   })
     .update({
       $push: {
@@ -248,7 +269,13 @@ const removeUserLink = (link, email) => {
 };
 
 start();
-
+User.collection.dropIndexes((err, res)=>{
+  if(err)
+    console.log(err)
+  else {
+    console.log(res)
+  }
+})
 const checkChanges = require('./ChangeChecker/index')();
 
 app.use(express.static(__dirname + '/../public'));

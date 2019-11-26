@@ -1,4 +1,4 @@
-const jwt = require('jwt');
+const jwt = require('jsonwebtoken');
 const secret = 'pricewatcher'
 
 const withAuth = function (req, res, next) {
@@ -20,4 +20,4 @@ const withAuth = function (req, res, next) {
     }
 }
 
-module.exports = withAuth'
+module.exports = withAuth;

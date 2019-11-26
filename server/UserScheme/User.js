@@ -8,10 +8,17 @@ const user = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    index: true,
+    sparse: true
   },
   password: {
     type: String,
     required: true,
+  },
+  tokens: {
+      type :[{
+          token: String
+      }]
   },
   links: {
     type: [
@@ -59,6 +66,8 @@ user.methods.isCorrectPassword = function(password, callback) {
     }
   });
 };
+
+
 
 const User = mongoose.model('User', user);
 
