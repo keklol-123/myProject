@@ -25,6 +25,7 @@ const user = new mongoose.Schema({
       {
         link: {
           type: String,
+          dropDups: true
         },
         price: {
           type: String,

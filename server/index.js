@@ -11,9 +11,9 @@ const getPrice = require('./Parsing/Parser');
 const withAuth = require('./Middleware/middleware');
 const app = express();
 
-const secret = 'pricewatcher'
+const secret = 'pricewatcher';
 
-app.use(cookieParser())
+app.use(cookieParser());
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useUnifiedTopology', true);
@@ -75,7 +75,7 @@ app.post('/login', bodyParser.json(), (req, res) => {
               message: 'incorrect email or password',
               success: false,
             });
-          } 
+          }
         });
       }
     },
@@ -87,38 +87,41 @@ app.post('/login', bodyParser.json(), (req, res) => {
         success: false,
       });
     } else {
-      const payload = {user};
-            const token = jwt.sign(payload, secret, {
-              expiresIn: '24h',
-            });
-      User.findOneAndUpdate({email: user.email},{$push: {
-        tokens: {token: token}
-      }}).exec((err, res) => {
-        if (err)
-          console.log(err)
-        else 
-          console.log(res)
-      })
-      res.cookie('token', token, { httpOnly: true }).status(200).send(user);
-
-     
+      const payload = { email: user.email };
+      const token = jwt.sign(payload, secret, {
+        expiresIn: '24h',
+      });
+      User.findOneAndUpdate(
+        { email: user.email },
+        {
+          $push: {
+            tokens: { token: token },
+          },
+        },
+      ).exec((err, res) => {
+        if (err) console.log(err);
+        else console.log(res);
+      });
+      res
+        .cookie('token', token, { httpOnly: true })
+        .status(200)
+        .send(user);
     }
   });
 });
 
-app.post('/checkToken',bodyParser.json() ,(req, res) => {
-  const {token} = req.body;
+app.post('/checkToken', bodyParser.json(), (req, res) => {
+  const { token } = req.body;
 
-  User.findOne({'tokens.token': token}, (err, user) => {
-    if(err)
-      console.log(err);
-    else 
-      res.status(200).send(user.links)
-  })
-})
+  User.findOne({ 'tokens.token': token }, (err, user) => {
+    if (err) console.log(err);
+    else res.status(200).send(user.links);
+  });
+});
 
 app.post('/addlink', bodyParser.json(), async (req, res) => {
-  const { email, password, newLink } = req.body;
+  const { email, newLink } = req.body;
+
   let price;
   const z = await getPrice(newLink).then(res => {
     price = res;
@@ -141,10 +144,17 @@ app.post('/addlink', bodyParser.json(), async (req, res) => {
           message: 'addlink_failed',
           success: false,
         });
+      } else if (user.nModified == 0) {
+        res
+          .status(401)
+          .json({ message: 'user not found' })
+          .send();
       } else {
         res.status(200).send({
           message: 'add_success',
           success: true,
+          link: newLink,
+          price,
         });
       }
     });
@@ -194,88 +204,9 @@ async function start() {
     console.log(e);
   }
 }
-const addUser = userData => {
-  User.findOne(
-    {
-      email: userData.email,
-    },
-    (err, user) => {
-      if (user) console.log('user exists');
-      else new User(userData).save();
-    },
-  );
-};
-
-const getUser = email => {
-  return User.find({
-    email: email,
-  });
-};
-
-const addUserLink = (newLink, email) => {
-  User.findOne({
-    email: email,
-  })
-    .then(res => res.links)
-    .then(links => {
-      if (!links.map(val => val.link).includes(newLink)) {
-        User.update(
-          {
-            email: email,
-          },
-          {
-            $push: {
-              links: {
-                link: newLink,
-                price: 1221,
-              },
-            },
-          },
-          {
-            runValidators: true,
-          },
-          function(err, raw) {
-            if (err) return handleError(err);
-            console.log('The raw response from Mongo was ', raw);
-          },
-        );
-      } else console.log(`${newLink} is already exists`);
-    })
-    .catch(e => {
-      console.error(e);
-    });
-};
-
-const removeUserLink = (link, email) => {
-  User.findOne({
-    email: email,
-  })
-    .then(res => res.links)
-    .then(links => {
-      const newLinks = links.filter(val => val.link != link);
-      User.update(
-        {
-          email: email,
-        },
-        {
-          links: newLinks,
-        },
-        function(err, raw) {
-          if (err) return handleError(err);
-          console.log('The raw response from Mongo was ', raw);
-        },
-      );
-    });
-};
 
 start();
-User.collection.dropIndexes((err, res)=>{
-  if(err)
-    console.log(err)
-  else {
-    console.log(res)
-  }
-})
+User.collection.dropIndexes();
 const checkChanges = require('./ChangeChecker/index')();
 
 app.use(express.static(__dirname + '/../public'));

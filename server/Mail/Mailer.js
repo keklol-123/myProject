@@ -10,7 +10,7 @@ const mailer = (recipientsMail, text) => {
         from: mailConfig.auth.user,
           to: recipientsMail,
           subject: 'hello world!',
-          text: text
+          html: text
         }, (err, info) => {
             if(err)
                 console.log(err)
@@ -19,6 +19,6 @@ const mailer = (recipientsMail, text) => {
         });
 }
 
-module.exports = mailer
+module.exports = mailer;
 
 
