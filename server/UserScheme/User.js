@@ -25,7 +25,8 @@ const user = new mongoose.Schema({
       {
         link: {
           type: String,
-          dropDups: true
+          dropDups: true,
+          unique: true
         },
         price: {
           type: String,
@@ -41,6 +42,8 @@ const user = new mongoose.Schema({
     },
   },
 });
+
+
 
 user.pre('save', function(next) {
   if (this.isNew || this.isModified('password')) {
