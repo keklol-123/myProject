@@ -1,12 +1,8 @@
 import * as React from "react";
+import SignIn from './Auth/Auth';
 
-export interface HelloProps {
-  compiler: string;
-  framework: string;
+
+export const App = () => {
+ return <SignIn/>
 }
 
-export const App = (props: HelloProps) => (
-  <h1>
-    Hello from {props.compiler} and {props.framework}!
-  </h1>
-);
