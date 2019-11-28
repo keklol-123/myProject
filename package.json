@@ -21,6 +21,9 @@
     "webpack-cli": "^3.3.9"
   },
   "dependencies": {
+    "@material-ui/core": "^4.7.0",
+    "@material-ui/icons": "^4.5.1",
+    "@types/material-ui": "^0.21.7",
     "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "cheerio": "^1.0.0-rc.3",

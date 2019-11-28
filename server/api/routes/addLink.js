@@ -5,11 +5,9 @@ const User = require('../../UserScheme/User');
 const getPrice = require('../../Parsing/Parser')
 
 Router.post('/', async (req, res) => {
-    const { email, newLink, token } = req.body;
+    const { newLink, token } = req.body;
 
     if(!token) return res.status(401).send({message: 'Unauthorized'});
-
-    
 
     let price;
     const z = await getPrice(newLink).then(res => {

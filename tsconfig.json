@@ -1,11 +1,26 @@
 {
     "compilerOptions": {
-        "outDir": "public",
-        "sourceMap": true,
-        "noImplicitAny": true,
         "module": "commonjs",
-        "target": "es5",
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strictNullChecks": false,
+        "baseUrl": "../",
         "jsx": "react",
-        "lib": ["dom", "es6"]
-    }
+        "typeRoots": [
+            "../"
+        ],
+        
+        "esModuleInterop": true,
+        "types": [],
+        "noEmit": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "files": [
+        "index.d.ts",
+        "react-tag-input-tests.tsx"
+    ]
 }
