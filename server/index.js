@@ -16,7 +16,10 @@ const checkToken = require('./api/routes/checkToken');
 const app = express();
 
 app.use(cookieParser());
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+  type: ['application/json', 'text/plain']
+}));
+app.use(bodyParser.urlencoded({ extended: true }))
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useUnifiedTopology', true);

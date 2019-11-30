@@ -8,8 +8,6 @@ const user = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    index: true,
-    sparse: true
   },
   password: {
     type: String,
@@ -26,7 +24,6 @@ const user = new mongoose.Schema({
         link: {
           type: String,
           dropDups: true,
-          unique: true
         },
         price: {
           type: String,

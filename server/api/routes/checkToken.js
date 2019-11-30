@@ -9,6 +9,9 @@ Router.post('/', (req, res) => {
   
     User.findOne({ 'tokens.token': token }, (err, user) => {
       if (err) console.log(err);
+      else if(!user) {
+        res.status(401).send({message: 'Token not valid'})
+      }
       else res.status(200).send(user.links);
     });
   })
