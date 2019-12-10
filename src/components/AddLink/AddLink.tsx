@@ -21,8 +21,10 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.background.paper,
       display: 'flex',
       flexDirection: 'column',
+      justifyContent: 'space-around',
       borderRadius: '5px',
       width: '450px',
+      height: '140px',
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
     },
@@ -57,6 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
     
     const onAddClick = () => {
         props.addLink(text)
+        setOpen(false)
     }
     return (
       <div className={classes.btnConatainer}>
@@ -77,8 +80,8 @@ const useStyles = makeStyles((theme: Theme) =>
         >
           <Fade in={open}>
             <div className={classes.paper}>
-                <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={onInputChange}/>
-                <Fab variant="extended" onClick={onAddClick}>
+                <TextField id="outlined-basic" label="Link..." variant="outlined" onChange={onInputChange}/>
+                <Fab variant="extended" color="primary" onClick={onAddClick}>
                     <AddToPhotosOutlinedIcon className={classes.extendedIcon} />
                      Add Link
                 </Fab>

@@ -6,7 +6,8 @@ import {
   CHECK_TOKEN_SUCCESS,
   ADD_LINK,
   DELETE_LINK,
-  LOAD_LINKS
+  LOAD_LINKS,
+  LOGOUT
 } from '../actions/types';
 
 interface ILink {
@@ -69,6 +70,14 @@ export default function(state = initialState, action: any): IState {
         return {
           ...state,
           links: action.payload
+        }
+    case LOGOUT: 
+        return {
+          token: localStorage.getItem('token'),
+          isAuthenticated: false,
+          links: null,
+          registerSuccess:false,
+          registerFailure: false,
         }
     default: 
         return {

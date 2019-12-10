@@ -4,6 +4,7 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
   CHECK_TOKEN_SUCCESS,
+  LOGOUT
 } from './types';
 
 export const loginUser: any = ({ email, password }: { email: string; password: string }): any => (
@@ -82,3 +83,11 @@ export const checkToken: any = (): any => (dispatch: any) => {
     });
   }
 };
+
+export const logout = () => {
+  if (localStorage.getItem('token'))
+    localStorage.removeItem('token');
+  return {
+    type: LOGOUT
+  }
+}

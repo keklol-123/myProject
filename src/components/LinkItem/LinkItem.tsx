@@ -14,7 +14,8 @@ const useStyles = makeStyles({
     minWidth: 275,
     display: 'flex',
     justifyContent: 'space-around',
-    margin: '10px 0px'
+    margin: '10px 0px',
+    backgroundColor: '#dfe6f2'
   },
   bullet: {
     display: 'inline-block',
@@ -27,6 +28,9 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
+  link: {
+    textDecoration: 'none',
+  }
 });
 
  function LinkItem(props: any) {
@@ -40,14 +44,18 @@ const useStyles = makeStyles({
       
     <Card className={classes.card}>
       <CardContent>
-        
-          <a href={props.props.link}>
+      <Typography>
+          <a href={props.props.link} className={classes.link}>
             Link
           </a>
+        </Typography>
+          <Typography>
+            Price {props.props.price}
+          </Typography>
         
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={onDeleteClick}>Delete</Button>
+        <Button size="small" onClick={onDeleteClick} variant="contained" color="secondary">Delete</Button>
       </CardActions>
     </Card>
   );

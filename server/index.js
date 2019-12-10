@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 const User = require('./UserScheme/User');
-const withAuth = require('./Middleware/middleware');
+const changeChecker = require('./ChangeChecker')
 
 const login = require('./api/routes/login');
 const signup = require('./api/routes/signup');
@@ -13,6 +13,7 @@ const removeLink = require('./api/routes/removelink');
 const addLink = require('./api/routes/addlink');
 const checkToken = require('./api/routes/checkToken');
 const loadLinks = require('./api/routes/loadLinks')
+
 const app = express();
 
 app.use(cookieParser());
@@ -49,6 +50,8 @@ async function start() {
 start();
 User.collection.dropIndexes();
 // const checkChanges = require('./ChangeChecker/index')();
+
+setInterval(changeChecker, 10 * 60 * 1000)
 
 app.use(express.static(__dirname + './../public'));
 
