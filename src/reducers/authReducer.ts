@@ -4,6 +4,9 @@ import {
   REGISTER_FAILURE,
   CLEAR_REGISTRATION_STATUS,
   CHECK_TOKEN_SUCCESS,
+  ADD_LINK,
+  DELETE_LINK,
+  LOAD_LINKS
 } from '../actions/types';
 
 interface ILink {
@@ -59,7 +62,14 @@ export default function(state = initialState, action: any): IState {
             ...state,
             links: action.payload,
             isAuthenticated: true
-        }   
+        } 
+    case ADD_LINK:
+    case DELETE_LINK:
+    case LOAD_LINKS: 
+        return {
+          ...state,
+          links: action.payload
+        }
     default: 
         return {
             ...state
