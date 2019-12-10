@@ -49,8 +49,8 @@
 	`$ git clone https://github.com/keklol-123/myProject.git <ваша папка>`
 + Установить необходимые пакеты:<br/>
 	`$ npm i`
-+ Собрать проект:<br/>
-	`$ npm start`
++ Собрать и запустить проект:<br/>
+	`$ npm run server`
 
 
 
