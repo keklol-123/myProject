@@ -12,7 +12,7 @@ const signup = require('./api/routes/signup');
 const removeLink = require('./api/routes/removelink');
 const addLink = require('./api/routes/addlink');
 const checkToken = require('./api/routes/checkToken');
-
+const loadLinks = require('./api/routes/loadLinks')
 const app = express();
 
 app.use(cookieParser());
@@ -29,8 +29,8 @@ app.use('/signup', signup);
 app.use('/login', login);
 app.use('/checkToken', checkToken);
 app.use('/addlink', addLink);
-app.post('/removelink', removeLink);
-
+app.use('/removelink', removeLink);
+app.use('/loadlinks', loadLinks)
 async function start() {
   try {
     await mongoose.connect(
@@ -48,9 +48,9 @@ async function start() {
 
 start();
 User.collection.dropIndexes();
-const checkChanges = require('./ChangeChecker/index')();
+// const checkChanges = require('./ChangeChecker/index')();
 
-app.use(express.static(__dirname + '/../public'));
+app.use(express.static(__dirname + './../public'));
 
 app.use('/', function(request, response) {
   response.sendFile(path.resolve(__dirname, '/../public/index.html'));

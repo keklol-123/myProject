@@ -36,11 +36,13 @@ Router.post('/', async (req, res) => {
             .json({ message: 'link already exists' })
             .send();
         } else {
-          res.status(200).send({
-            message: 'add_success',
-            success: true,
-            link: newLink,
-            price,
+          
+          User.findOne({"tokens.token": token}, (err, updatedUser) => {
+            res.status(200).send({
+              links: updatedUser.links,
+              message: 'add_success',
+              success: true,
+            })
           });
         }
       });

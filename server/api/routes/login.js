@@ -12,7 +12,7 @@ Router.post('/', (req, res) => {
       email,
     }
   ).exec((err, user) => {
-    console.log(user)
+    
     if (err) {
       res.status(500).send({
         message: 'login_failed',
@@ -52,7 +52,6 @@ Router.post('/', (req, res) => {
             },
           ).exec((err, res) => {
             if (err) console.log(err);
-            else console.log(res);
           });
           res.status(200).send({ links: user.links, token: token });
         }

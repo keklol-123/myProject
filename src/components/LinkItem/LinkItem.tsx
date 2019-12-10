@@ -6,16 +6,19 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Link } from '@material-ui/core';
+import {connect} from 'react-redux';
+import {deleteLink} from '../../actions/linksActions';
 
 const useStyles = makeStyles({
   card: {
     minWidth: 275,
     display: 'flex',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    margin: '10px 0px'
   },
   bullet: {
     display: 'inline-block',
-    margin: '0 2px',
+    margin: '5 2px',
     transform: 'scale(0.8)',
   },
   title: {
@@ -26,14 +29,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function LinkItem(props: any) {
+ function LinkItem(props: any) {
   // @ts-ignore
   const classes = useStyles();
-    console.log(props.props.link)
-//   const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
-    const open = () => {
-        window.open(props.link)
-    }
+
+  const onDeleteClick = () => {
+    props.deleteLink(props.props.link)
+  }
   return (
       
     <Card className={classes.card}>
@@ -45,8 +47,14 @@ export default function LinkItem(props: any) {
         
       </CardContent>
       <CardActions>
-        <Button size="small">Delete</Button>
+        <Button size="small" onClick={onDeleteClick}>Delete</Button>
       </CardActions>
     </Card>
   );
 }
+
+const mapStateToProps = (state: any) => ({
+  state: state,
+});
+
+export default connect(mapStateToProps, {deleteLink})(LinkItem);
