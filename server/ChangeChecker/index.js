@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const User = require('../UserScheme/User');
 const getPrice = require('../Parsing/Parser');
 const changePrice = require('../UserScheme/ChangePrice');
