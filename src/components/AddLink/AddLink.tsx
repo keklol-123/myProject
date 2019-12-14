@@ -63,8 +63,10 @@ const useStyles = makeStyles((theme: Theme) =>
   }
     
     const onAddClick = () => {
+      if(link.length + name.length > 2){
         props.addLink(link, name)
         setOpen(false)
+      }
     }
     return (
       <div className={classes.btnConatainer}>
