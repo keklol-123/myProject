@@ -13,6 +13,13 @@ Router.post('/', async (req, res) => {
     const z = await getPrice(newLink).then(res => {
       price = res;
     });
+    if(price == undefined){
+      res.status(406).send({
+        message: 'link_not_acceptable',
+        success: false,
+      });
+      return;
+    }
     User.findOne({
       "tokens.token": token
     })

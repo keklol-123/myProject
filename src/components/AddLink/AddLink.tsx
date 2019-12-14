@@ -67,6 +67,8 @@ const useStyles = makeStyles((theme: Theme) =>
         props.addLink(link, name)
         setOpen(false)
       }
+      updateLink('');
+      updateName('');
     }
     return (
       <div className={classes.btnConatainer}>
