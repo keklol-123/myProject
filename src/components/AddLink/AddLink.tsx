@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'space-around',
       borderRadius: '5px',
       width: '450px',
-      height: '140px',
+      height: '220px',
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
     },
@@ -42,7 +42,8 @@ const useStyles = makeStyles((theme: Theme) =>
      //@ts-ignore
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [text, updateText] = React.useState<String>('');
+    const [link, updateLink] = React.useState<String>('');
+    const [name, updateName] = React.useState<String>('');
   
     const handleOpen = () => {
       setOpen(true);
@@ -50,15 +51,19 @@ const useStyles = makeStyles((theme: Theme) =>
   
     const handleClose = () => {
       setOpen(false);
-      updateText('')
+      updateLink('')
+      updateName('')
     };
 
-    const onInputChange = (e: any) => {
-        updateText(e.target.value)
+    const onLinkChange = (e: any) => {
+        updateLink(e.target.value)
     }
+    const onNameChange = (e: any) => {
+      updateName(e.target.value)
+  }
     
     const onAddClick = () => {
-        props.addLink(text)
+        props.addLink(link, name)
         setOpen(false)
     }
     return (
@@ -80,7 +85,8 @@ const useStyles = makeStyles((theme: Theme) =>
         >
           <Fade in={open}>
             <div className={classes.paper}>
-                <TextField id="outlined-basic" label="Link..." variant="outlined" onChange={onInputChange}/>
+                <TextField id="outlined-basic" label="Name..." variant="outlined" onChange={onNameChange}/>
+                <TextField id="outlined-basic" label="Link..." variant="outlined" onChange={onLinkChange}/>
                 <Fab variant="extended" color="primary" onClick={onAddClick}>
                     <AddToPhotosOutlinedIcon className={classes.extendedIcon} />
                      Add Link

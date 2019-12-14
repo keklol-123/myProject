@@ -46,7 +46,7 @@ const useStyles = makeStyles({
       <CardContent>
       <Typography>
           <a href={props.props.link} className={classes.link}>
-            Link
+            {props.props.name ? props.props.name : 'Link'}
           </a>
         </Typography>
           <Typography>

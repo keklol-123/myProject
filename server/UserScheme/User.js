@@ -29,6 +29,10 @@ const user = new mongoose.Schema({
           type: String,
           required: true,
         },
+        name: {
+          type: String,
+          default: 'Link',
+        }
       },
     ],
     validate: {

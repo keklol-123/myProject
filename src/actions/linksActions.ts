@@ -4,9 +4,10 @@ import {
   LOAD_LINKS
 } from './types'
 
-export const addLink = (link: String) => (dispatch: any) => {
+export const addLink = (link: String, name: String) => (dispatch: any) => {
     const data = {
         newLink: link,
+        name: name,
         token: localStorage.getItem('token')
     }
     fetch('/addlink', {

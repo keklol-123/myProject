@@ -5,7 +5,7 @@ const User = require('../../UserScheme/User');
 const getPrice = require('../../Parsing/Parser')
 
 Router.post('/', async (req, res) => {
-    const { newLink, token } = req.body;
+    const { newLink, token, name } = req.body;
 
     if(!token) return res.status(401).send({message: 'Unauthorized'});
 
@@ -21,6 +21,7 @@ Router.post('/', async (req, res) => {
           links: {
             link: newLink,
             price: price,
+            name: name
           },
         },
       })
