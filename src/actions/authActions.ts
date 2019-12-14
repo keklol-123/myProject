@@ -4,7 +4,9 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
   CHECK_TOKEN_SUCCESS,
-  LOGOUT
+  LOGOUT,
+  CLEAR_REGISTRATION_STATUS,
+  LOGIN_FAILURE
 } from './types';
 
 export const loginUser: any = ({ email, password }: { email: string; password: string }): any => (
@@ -27,6 +29,9 @@ export const loginUser: any = ({ email, password }: { email: string; password: s
         res.json().then(myresponse => {
           dispatch({ type: LOGIN_SUCCESS, payload: myresponse });
         });
+      else {
+        dispatch({ type: LOGIN_FAILURE})
+      }
     })
     .catch(err => {
       console.log(err);
@@ -83,6 +88,11 @@ export const checkToken: any = (): any => (dispatch: any) => {
     });
   }
 };
+
+export const clearErrors: any = (): any => {
+  return { type: CLEAR_REGISTRATION_STATUS}
+}
+
 
 export const logout = () => {
   if (localStorage.getItem('token'))

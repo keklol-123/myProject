@@ -4,7 +4,7 @@ import {
   LOAD_LINKS
 } from './types'
 
-export const addLink = (link: any) => (dispatch: any) => {
+export const addLink = (link: String) => (dispatch: any) => {
     const data = {
         newLink: link,
         token: localStorage.getItem('token')

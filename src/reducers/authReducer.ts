@@ -7,7 +7,8 @@ import {
   ADD_LINK,
   DELETE_LINK,
   LOAD_LINKS,
-  LOGOUT
+  LOGOUT,
+  LOGIN_FAILURE,
 } from '../actions/types';
 
 interface ILink {
@@ -21,6 +22,7 @@ interface IState {
   links: [ILink] | null | undefined;
   registerSuccess: boolean;
   registerFailure: boolean;
+  loginFailure: boolean;
 }
 
 const initialState: IState = {
@@ -29,6 +31,7 @@ const initialState: IState = {
   links: null,
   registerSuccess:false,
   registerFailure: false,
+  loginFailure: false
 };
 
 export default function(state = initialState, action: any): IState {
@@ -41,6 +44,7 @@ export default function(state = initialState, action: any): IState {
         isAuthenticated: true,
         registerSuccess: false,
         registerFailure: false,
+        loginFailure: false
       };
     case REGISTER_SUCCESS:
       return {
@@ -57,6 +61,7 @@ export default function(state = initialState, action: any): IState {
         ...state,
         registerSuccess: false,
         registerFailure: false,
+        loginFailure: false
       };
     case CHECK_TOKEN_SUCCESS:
         return {
@@ -78,7 +83,13 @@ export default function(state = initialState, action: any): IState {
           links: null,
           registerSuccess:false,
           registerFailure: false,
+          loginFailure: false
         }
+    case LOGIN_FAILURE:
+      return {
+        ...state,
+        loginFailure: true
+      }
     default: 
         return {
             ...state

@@ -9,6 +9,9 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import { connect } from 'react-redux';
 import { loginUser, checkToken, registerUser } from '../../actions/authActions';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import LoginFail from '../LoginFail/LoginFail'
+import SignupSuccess from '../SignupSuccess/SignupSuccess'
+import SignupFailure from '../SignupFailure/SignupFailure'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -123,6 +126,9 @@ const SignIn = (props: any) => {
         </form>
         
       </div>
+      {props.state.loginFailure ?  <LoginFail/> : null}
+      {props.state.registerSuccess ? <SignupSuccess/> : null}
+      {props.state.registerFailure ? <SignupFailure/> : null}
     </Container>
   );
 };
