@@ -41,8 +41,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignIn = (props: any) => {
-  const [email, changeEmail] = useState<String>('');
-  const [password, changePassword] = useState<String>('');
+  const [email, changeEmail] = useState<string>('');
+  const [password, changePassword] = useState<string>('');
 
   useEffect(() => {
     props.checkToken();
@@ -57,15 +57,24 @@ const SignIn = (props: any) => {
   const onPasswordChange = (e: any): void => {
     changePassword(e.target.value);
   };
+  const isValidEmail = (): boolean => {
+    let emailValid: boolean = (/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i).test(email);
+    return emailValid;
+  };
+  const isPasswordValid = (): boolean =>{
+    let passwValid: boolean = (password.length > 6);
+    return passwValid;
+  }
 
   const onRegisterClick = (e: any): void => {
     e.preventDefault();
-    props.registerUser({ email, password });
+    if(isPasswordValid() && isValidEmail()) props.registerUser({ email, password });
   };
   const onLoginClick = (e: any) => {
     e.preventDefault();
-    props.loginUser({ email, password });
+    if(isPasswordValid() && isValidEmail()) props.loginUser({ email, password });
   };
+  
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -79,19 +88,33 @@ const SignIn = (props: any) => {
         </Avatar>
 
         <form className={classes.form} noValidate>
-          <TextField
+          {isValidEmail()?<TextField
+            id="email"
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="email"
+            //id="email"
             label="Email Address"
             name="email"
             autoComplete="email"
             autoFocus
             onChange={onEmailChange}
-          />
-          <TextField
+          /> : <TextField
+          error id="email"
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          //id="email"
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          autoFocus
+          helperText="Email is not valid"
+          onChange={onEmailChange}
+        />}
+          {isPasswordValid() ? <TextField
             variant="outlined"
             margin="normal"
             required
@@ -102,7 +125,20 @@ const SignIn = (props: any) => {
             id="password"
             autoComplete="current-password"
             onChange={onPasswordChange}
-          />
+          /> : <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          error id="password_not_valid"
+          helperText="Password must be greater then 6 characters"
+          autoComplete="current-password"
+          onChange={onPasswordChange}
+        />}
+          
           <div className={classes.btnBody}>
             <Button
               fullWidth
@@ -131,6 +167,7 @@ const SignIn = (props: any) => {
       {props.state.registerFailure ? <SignupFailure/> : null}
     </Container>
   );
+
 };
 
 const mapStateToProps = (state: any) => ({
