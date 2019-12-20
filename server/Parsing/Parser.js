@@ -1,40 +1,69 @@
-const cheerio = require('cheerio')
-const getHtml = require('./Getter')
+const cheerio = require('cheerio');
+const getHtml = require('./Getter');
 
-const aliNormalize= require('./Normalize/AliExpress')
+const aliNormalize = require('./Normalize/AliExpress');
 
+const getPrice = async link => {
+  if (link.includes('aliexpress')) {
+    let currentPrice;
+    return await getHtml(link).then(html => {
+      let currentPrice = cheerio
+        .load(html)('[itemprop="price"]')
+        .html();
+      if (!currentPrice)
+        currentPrice = cheerio
+          .load(html)('.current-price')
+          .html();
+      currentPrice = aliNormalize(currentPrice);
 
-const getPrice = async (link) => {
+      return currentPrice;
+    });
+  }
 
-    if (link.includes('aliexpress')){
+  if (link.includes('amazon')) {
+    let currentPrice;
+    return await getHtml(link).then(html => {
+      let currentPrice = cheerio
+        .load(html)('.price-large')
+        .html();
+      if (!currentPrice)
+        currentPrice = cheerio
+          .load(html)('.priceBlockBuyingPriceString')
+          .html();
+      if (!currentPrice)
+        currentPrice = cheerio
+          .load(html)('#newBuyBoxPrice')
+          .html();
 
-        let currentPrice;
-        return await getHtml(link).then(html => {
-            let currentPrice = cheerio.load(html)('[itemprop="price"]').html()
-            if(!currentPrice)
-                currentPrice = cheerio.load(html)('.current-price').html()
-            currentPrice = aliNormalize(currentPrice)
-            
-            return currentPrice
-        })
+      currentPrice = parseFloat(currentPrice.replace(/[$,]/g, ''));
 
-    }
+      return currentPrice;
+    });
+  }
+  if (link.includes('ebay')) {
+    let currentPrice;
+    return await getHtml(link).then(html => {
+         currentPrice = cheerio
+        .load(html)('[class="display-price"]')
+        .html();
+      
+        currentPrice = aliNormalize(currentPrice);
 
-    if (link.includes('amazon')){
-        let currentPrice;
-        return await getHtml(link).then(html => {
-            let currentPrice = cheerio.load(html)('.price-large').html()
-            if(!currentPrice)
-                currentPrice = cheerio.load(html)('.priceBlockBuyingPriceString').html()
-            if(!currentPrice)
-                currentPrice = cheerio.load(html)('#newBuyBoxPrice').html()
-            
-            currentPrice = parseFloat(currentPrice.replace(/[$,]/g,''))
-           
-             return currentPrice
-    })
-}
-}
+      return currentPrice;
+    });
+  }
+  if(link.includes('wildberries')){
+    let currentPrice;
+    return await getHtml(link).then(html => {
+         currentPrice = cheerio
+        .load(html)('[class="final-cost"]')
+        .html();
+      
+        currentPrice = parseFloat(aliNormalize(currentPrice).toString().slice(0,-2));
 
+      return currentPrice;
+    });
+  }
+};
 
-module.exports = getPrice
+module.exports = getPrice;
