@@ -5,12 +5,7 @@ import {Provider} from 'react-redux';
 import store from '../store'
 
 
-
 export class App extends React.Component<any> {
-
-    componentWillUpdate() {
-        console.log(store.getState())
-    }
     
     render() {
         console.log(store.getState())

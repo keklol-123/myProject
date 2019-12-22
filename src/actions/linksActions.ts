@@ -4,8 +4,15 @@ import {
   LOAD_LINKS
 } from './types'
 
-export const addLink = (link: String, name: String) => (dispatch: any) => {
-    const data = {
+interface IData {
+  token: string,
+  newLink?: string,
+  linkToRemove?: string,
+  name?: string,
+}
+
+export const addLink = (link: string, name: string) => (dispatch: any): void => {
+    const data: IData = {
         newLink: link,
         name: name,
         token: localStorage.getItem('token')
@@ -28,8 +35,8 @@ export const addLink = (link: String, name: String) => (dispatch: any) => {
       })
 }
 
-export const deleteLink = (link: any) => (dispatch: any) => {
-    const data = {
+export const deleteLink = (link: string) => (dispatch: any): void => {
+    const data: IData = {
         token: localStorage.getItem('token'),
         linkToRemove: link
     }
@@ -53,7 +60,7 @@ export const deleteLink = (link: any) => (dispatch: any) => {
 }
 
 export const loadLinks = () => (dispatch: any) => {
-    const data = {
+    const data: IData = {
         token: localStorage.getItem('token'),
     }
     fetch('/loadlinks', {

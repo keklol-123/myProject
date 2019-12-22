@@ -22,8 +22,11 @@ const useStyles = makeStyles({
     }
   });
 
+interface IProps {
+    clearErrors: () => void
+}
 
-const LoginFail = (props: any) => {
+const LoginFail = (props: IProps) => {
 
     // @ts-ignore
     const classes = useStyles();

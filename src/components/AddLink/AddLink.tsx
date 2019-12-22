@@ -9,6 +9,13 @@ import Fab from '@material-ui/core/Fab';
 import AddToPhotosOutlinedIcon from '@material-ui/icons/AddToPhotosOutlined';
 import {connect} from 'react-redux';
 import {addLink} from '../../actions/linksActions'
+import IState from '../../interfaces/state'
+import OnClickEvent from '../../interfaces/clickEvent'
+
+interface IProps {
+  state: IState;
+  addLink: (link: string, name: string) => void
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,12 +45,14 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
- function AddLink(props: any) {
+
+
+ function AddLink(props: IProps) {
      //@ts-ignore
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [link, updateLink] = React.useState<String>('');
-    const [name, updateName] = React.useState<String>('');
+    const [link, updateLink] = React.useState<string>('');
+    const [name, updateName] = React.useState<string>('');
   
     const handleOpen = () => {
       setOpen(true);
@@ -55,10 +64,10 @@ const useStyles = makeStyles((theme: Theme) =>
       updateName('')
     };
 
-    const onLinkChange = (e: any) => {
+    const onLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         updateLink(e.target.value)
     }
-    const onNameChange = (e: any) => {
+    const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       updateName(e.target.value)
   }
     
@@ -101,7 +110,7 @@ const useStyles = makeStyles((theme: Theme) =>
       </div>
     );
   }
-  const mapStateToProps = (state: any) => ({
+  const mapStateToProps = (state: IState) => ({
     state: state,
   });
   

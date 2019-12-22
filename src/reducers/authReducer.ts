@@ -10,20 +10,7 @@ import {
   LOGOUT,
   LOGIN_FAILURE,
 } from '../actions/types';
-
-interface ILink {
-  link: string;
-  price: number;
-}
-
-interface IState {
-  token: string | null;
-  isAuthenticated: boolean;
-  links: [ILink] | null | undefined;
-  registerSuccess: boolean;
-  registerFailure: boolean;
-  loginFailure: boolean;
-}
+import IState from '../interfaces/state'
 
 const initialState: IState = {
   token: localStorage.getItem('token'),

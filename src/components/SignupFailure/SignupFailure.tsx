@@ -5,6 +5,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import {clearErrors} from '../../actions/authActions'
 
+interface IProps {
+    clearErrors: () => void;
+}
+
 const useStyles = makeStyles({
     box: {
       backgroundColor: 'rgb(235, 64, 52, 0.6)',
@@ -23,7 +27,7 @@ const useStyles = makeStyles({
   });
 
 
-const SignupFailure = (props: any) => {
+const SignupFailure = (props: IProps) => {
 
     // @ts-ignore
     const classes = useStyles();

@@ -5,8 +5,6 @@ import SignIn from '../Auth/Auth';
 import LinksBody from '../LinksBody/LinksBody'
 
 const Router = (props: any) => {
-
-
     return (
         <div>
             {props.state.isAuthenticated ? <LinksBody/> : <SignIn />}

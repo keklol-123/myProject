@@ -9,9 +9,7 @@ import {
   LOGIN_FAILURE
 } from './types';
 
-export const loginUser: any = ({ email, password }: { email: string; password: string }): any => (
-  dispatch: any,
-): any => {
+export const loginUser = ({ email, password }: { email: string; password: string }): any => (dispatch: any): void => {
   const data = {
     email,
     password,
@@ -38,13 +36,13 @@ export const loginUser: any = ({ email, password }: { email: string; password: s
     });
 };
 
-export const registerUser: any = ({
+export const registerUser = ({
   email,
   password,
 }: {
   email: string;
   password: string;
-}): any => (dispatch: any): any => {
+}): any => (dispatch: any): void => {
   const data = {
     email: email,
     password: password,
@@ -67,7 +65,9 @@ export const registerUser: any = ({
   });
 };
 
-export const checkToken: any = (): any => (dispatch: any) => {
+type CheckTokenType = void | null;
+
+export const checkToken = (): any => (dispatch: any): CheckTokenType  => {
   if (!localStorage.getItem('token')) {
     return;
   } else {
@@ -89,12 +89,16 @@ export const checkToken: any = (): any => (dispatch: any) => {
   }
 };
 
-export const clearErrors: any = (): any => {
+interface ActionResult {
+  type: string
+}
+
+export const clearErrors: any = (): ActionResult => {
   return { type: CLEAR_REGISTRATION_STATUS}
 }
 
 
-export const logout = () => {
+export const logout = () : ActionResult => {
   if (localStorage.getItem('token'))
     localStorage.removeItem('token');
   return {

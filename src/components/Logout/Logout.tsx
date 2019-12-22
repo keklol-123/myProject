@@ -3,6 +3,12 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import {connect} from 'react-redux'
 import {logout} from '../../actions/authActions'
+import IState from '../../interfaces/state';
+
+interface IProps {
+  state: IState;
+  logout: () => void
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -14,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const LogOut = (props : any) => {
+const LogOut = (props : IProps) => {
     //@ts-ignore
   const classes = useStyles();
   const onClick = () => {

@@ -12,6 +12,9 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import LoginFail from '../LoginFail/LoginFail'
 import SignupSuccess from '../SignupSuccess/SignupSuccess'
 import SignupFailure from '../SignupFailure/SignupFailure'
+import IState from '../../interfaces/state'
+ 
+
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -51,10 +54,10 @@ const SignIn = (props: any) => {
   // @ts-ignore
   const classes = useStyles();
 
-  const onEmailChange = (e: any): void => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     changeEmail(e.target.value);
   };
-  const onPasswordChange = (e: any): void => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement> ): void => {
     changePassword(e.target.value);
   };
   const isValidEmail = (): boolean => {
@@ -66,11 +69,11 @@ const SignIn = (props: any) => {
     return passwValid;
   }
 
-  const onRegisterClick = (e: any): void => {
+  const onRegisterClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
     e.preventDefault();
     if(isPasswordValid() && isValidEmail()) props.registerUser({ email, password });
   };
-  const onLoginClick = (e: any) => {
+  const onLoginClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
     e.preventDefault();
     if(isPasswordValid() && isValidEmail()) props.loginUser({ email, password });
   };
@@ -142,6 +145,7 @@ const SignIn = (props: any) => {
           <div className={classes.btnBody}>
             <Button
               fullWidth
+              href='#'
               variant="contained"
               color="primary"
               className={classes.submit}
@@ -151,6 +155,7 @@ const SignIn = (props: any) => {
             </Button>
             <Button
               fullWidth
+              href='#'
               variant="contained"
               color="primary"
               className={classes.submit}
@@ -170,7 +175,7 @@ const SignIn = (props: any) => {
 
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: IState) => ({
   state: state,
 });
 

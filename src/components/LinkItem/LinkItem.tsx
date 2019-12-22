@@ -6,8 +6,11 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Link } from '@material-ui/core';
-import {connect} from 'react-redux';
-import {deleteLink} from '../../actions/linksActions';
+import { connect } from 'react-redux';
+import { deleteLink } from '../../actions/linksActions';
+import IState from '../../interfaces/state';
+import { ILink } from '../../interfaces/state';
+
 
 const useStyles = makeStyles({
   card: {
@@ -15,7 +18,7 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'space-around',
     margin: '10px 0px',
-    backgroundColor: '#dfe6f2'
+    backgroundColor: '#dfe6f2',
   },
   bullet: {
     display: 'inline-block',
@@ -30,39 +33,43 @@ const useStyles = makeStyles({
   },
   link: {
     textDecoration: 'none',
-  }
+  },
 });
 
- function LinkItem(props: any) {
+interface IProps {
+  state: IState;
+  props: ILink;
+  deleteLink: (link: string) => void;
+}
+
+function LinkItem(props: IProps) {
   // @ts-ignore
   const classes = useStyles();
 
-  const onDeleteClick = () => {
-    props.deleteLink(props.props.link)
-  }
+  const onDeleteClick = (): void => {
+    props.deleteLink(props.props.link);
+  };
   return (
-      
     <Card className={classes.card}>
       <CardContent>
-      <Typography>
+        <Typography>
           <a href={props.props.link} className={classes.link}>
             {props.props.name ? props.props.name : 'Link'}
           </a>
         </Typography>
-          <Typography>
-            Price {props.props.price}
-          </Typography>
-        
+        <Typography>Price {props.props.price}</Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={onDeleteClick} variant="contained" color="secondary">Delete</Button>
+        <Button size="small" onClick={onDeleteClick} variant="contained" color="secondary">
+          Delete
+        </Button>
       </CardActions>
     </Card>
   );
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: IState) => ({
   state: state,
 });
 
-export default connect(mapStateToProps, {deleteLink})(LinkItem);
+export default connect(mapStateToProps, { deleteLink })(LinkItem);

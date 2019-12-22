@@ -5,6 +5,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import {clearErrors} from '../../actions/authActions'
 
+interface IProps {
+    clearErrors: () => void
+}
+
 const useStyles = makeStyles({
     box: {
       backgroundColor: 'rgb(83, 230, 149, 0.6)',

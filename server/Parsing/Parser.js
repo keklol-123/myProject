@@ -5,7 +5,6 @@ const aliNormalize = require('./Normalize/AliExpress');
 
 const getPrice = async link => {
   if (link.includes('aliexpress')) {
-    let currentPrice;
     return await getHtml(link).then(html => {
       let currentPrice = cheerio
         .load(html)('[itemprop="price"]')
@@ -21,7 +20,6 @@ const getPrice = async link => {
   }
 
   if (link.includes('amazon')) {
-    let currentPrice;
     return await getHtml(link).then(html => {
       let currentPrice = cheerio
         .load(html)('.price-large')

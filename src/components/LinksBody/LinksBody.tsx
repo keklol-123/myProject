@@ -6,6 +6,7 @@ import LinkItem from '../LinkItem/LinkItem';
 import AddLink from '../AddLink/AddLink';
 import LogOut from '../Logout/Logout';
 import { makeStyles } from '@material-ui/core/styles';
+import IState from '../../interfaces/state';
 
 
 const useStyles = makeStyles({
@@ -14,9 +15,11 @@ const useStyles = makeStyles({
   }
 });
 
+interface IProps {
+  state: IState;
+}
 
-
-const LinksBody = (props: any) => {
+const LinksBody = (props: IProps) => {
 
   // @ts-ignore
   const classes = useStyles();
