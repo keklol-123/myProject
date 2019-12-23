@@ -9,10 +9,10 @@ const changeChecker = require('./ChangeChecker')
 
 const login = require('./api/routes/login');
 const signup = require('./api/routes/signup');
-const removeLink = require('./api/routes/removelink');
-const addLink = require('./api/routes/addlink');
-const checkToken = require('./api/routes/checktoken');
-const loadLinks = require('./api/routes/loadlinks')
+const removeLink = require('./api/routes/removeLink');
+const addLink = require('./api/routes/addLink');
+const checkToken = require('./api/routes/checkToken');
+const loadLinks = require('./api/routes/loadLinks')
 
 const app = express();
 
