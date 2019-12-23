@@ -39,29 +39,36 @@ const getPrice = async link => {
     });
   }
   if (link.includes('ebay')) {
-    let currentPrice;
     return await getHtml(link).then(html => {
-         currentPrice = cheerio
-        .load(html)('[class="display-price"]')
+      let currentPrice = cheerio
+        .load(html)('.vi-bin-addl-price__converted-from-price')
         .html();
-      
-        currentPrice = aliNormalize(currentPrice);
+      if (!currentPrice)
+        currentPrice = cheerio
+          .load(html)('[itemprop="price"]')
+          .html();
+      currentPrice = parseFloat(currentPrice.replace(/[&#;a-zB-Z$ ]/g, '').replace(/A0/g, '').replace(/,/g, '.'));
 
       return currentPrice;
     });
   }
-  if(link.includes('wildberries')){
+  if (link.includes('wildberries')) {
     let currentPrice;
     return await getHtml(link).then(html => {
-         currentPrice = cheerio
+      currentPrice = cheerio
         .load(html)('[class="final-cost"]')
         .html();
-      
-        currentPrice = parseFloat(aliNormalize(currentPrice).toString().slice(0,-2));
+
+      currentPrice = parseFloat(
+        aliNormalize(currentPrice)
+          .toString()
+          .slice(0, -2),
+      );
 
       return currentPrice;
     });
   }
 };
+
 
 module.exports = getPrice;
