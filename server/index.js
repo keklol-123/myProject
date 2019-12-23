@@ -41,7 +41,7 @@ async function start() {
         else console.log('Connected to DB');
       },
     );
-    app.listen(3000);
+    app.listen(process.env.PORT ||3000);
   } catch (e) {
     console.log(e);
   }
