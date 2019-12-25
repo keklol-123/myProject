@@ -67,7 +67,7 @@ const SignIn = (props: any) => {
     return emailValid;
   };
   const isPasswordValid = (): boolean =>{
-    let passwValid: boolean = (password.length > 6 && password.length === 0);
+    let passwValid: boolean = (password.length > 6 || password.length === 0);
     return passwValid;
   }
 
