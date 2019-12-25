@@ -54,8 +54,8 @@ User.collection.dropIndexes();
 // const checkChanges = require('./ChangeChecker/index')();
 
 setInterval(() => {
-
-}, 10 * 60 * 1000)
+  changeChecker()
+}, 1 * 60 * 1000)
 
 app.use(express.static(__dirname + './../public'));
 
