@@ -31,7 +31,7 @@ const LoginFail = (props: IProps) => {
     // @ts-ignore
     const classes = useStyles();
 
-    const onCloseClick = () => {
+    const onCloseClick = (): void => {
         props.clearErrors()
     }
     setTimeout(props.clearErrors, 3000)

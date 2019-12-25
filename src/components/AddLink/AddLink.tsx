@@ -54,11 +54,11 @@ const useStyles = makeStyles((theme: Theme) =>
     const [link, updateLink] = React.useState<string>('');
     const [name, updateName] = React.useState<string>('');
   
-    const handleOpen = () => {
+    const handleOpen = (): void => {
       setOpen(true);
     };
   
-    const handleClose = () => {
+    const handleClose = (): void => {
       setOpen(false);
       updateLink('')
       updateName('')
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme: Theme) =>
       updateName(e.target.value)
   }
     
-    const onAddClick = () => {
+    const onAddClick = (): void => {
       if(link.length + name.length > 2){
         props.addLink(link, name)
         setOpen(false)

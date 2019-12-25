@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const LogOut = (props : IProps) => {
     //@ts-ignore
   const classes = useStyles();
-  const onClick = () => {
+  const onClick = (): void => {
     props.logout();
   };
   return (

@@ -13,7 +13,7 @@ const removeLink = require('./api/routes/removeLink');
 const addLink = require('./api/routes/addLink');
 const checkToken = require('./api/routes/checkToken');
 const loadLinks = require('./api/routes/loadLinks')
-
+require('events').EventEmitter.defaultMaxListeners = 0;
 
 
 const app = express();
@@ -53,7 +53,9 @@ start();
 User.collection.dropIndexes();
 // const checkChanges = require('./ChangeChecker/index')();
 
-setInterval(changeChecker, 10 * 60 * 1000)
+setInterval(() => {
+
+}, 10 * 60 * 1000)
 
 app.use(express.static(__dirname + './../public'));
 

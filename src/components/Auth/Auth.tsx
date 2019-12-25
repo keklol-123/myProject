@@ -47,7 +47,7 @@ const SignIn = (props: any) => {
   const [email, changeEmail] = useState<string>('');
   const [password, changePassword] = useState<string>('');
 
-  useEffect(() => {
+  useEffect((): void => {
     props.checkToken();
   }, []);
 
