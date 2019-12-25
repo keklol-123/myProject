@@ -13,7 +13,7 @@ const removeLink = require('./api/routes/removeLink');
 const addLink = require('./api/routes/addLink');
 const checkToken = require('./api/routes/checkToken');
 const loadLinks = require('./api/routes/loadLinks')
-require('events').EventEmitter.defaultMaxListeners = 0;
+require('events').EventEmitter.defaultMaxListeners = 100;
 
 
 const app = express();
