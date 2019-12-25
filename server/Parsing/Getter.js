@@ -5,6 +5,8 @@ const getHtml = async (link) => {
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--full-memory-crash-report'
     ],
   });
   const page = await browser.newPage();
@@ -13,6 +15,7 @@ const getHtml = async (link) => {
 
   let bodyHTML = await page.evaluate(() => document.body.innerHTML);
 
+  await page.close()
   await browser.close()
 
   return bodyHTML
