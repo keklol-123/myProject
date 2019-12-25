@@ -32,6 +32,10 @@ const getPrice = async link => {
         currentPrice = cheerio
           .load(html)('#newBuyBoxPrice')
           .html();
+      if (!currentPrice)
+        currentPrice = cheerio
+          .load(html)('.a-color-price')
+          .html();
 
       currentPrice = parseFloat(currentPrice.replace(/[$,]/g, ''));
 
@@ -47,7 +51,12 @@ const getPrice = async link => {
         currentPrice = cheerio
           .load(html)('[itemprop="price"]')
           .html();
-      currentPrice = parseFloat(currentPrice.replace(/[&#;a-zB-Z$ ]/g, '').replace(/A0/g, '').replace(/,/g, '.'));
+      currentPrice = parseFloat(
+        currentPrice
+          .replace(/[&#;a-zB-Z$ ]/g, '')
+          .replace(/A0/g, '')
+          .replace(/,/g, '.'),
+      );
 
       return currentPrice;
     });
@@ -69,6 +78,5 @@ const getPrice = async link => {
     });
   }
 };
-
 
 module.exports = getPrice;
