@@ -62,10 +62,12 @@ const SignIn = (props: any) => {
   };
   const isValidEmail = (): boolean => {
     let emailValid: boolean = (/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i).test(email);
+    if (email === '')
+      return true;
     return emailValid;
   };
   const isPasswordValid = (): boolean =>{
-    let passwValid: boolean = (password.length > 6);
+    let passwValid: boolean = (password.length > 6 && password.length === 0);
     return passwValid;
   }
 
