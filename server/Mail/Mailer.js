@@ -1,13 +1,20 @@
 const nodemailer = require('nodemailer');
 const mailConfig = require('./config')
-const transporter = nodemailer.createTransport(mailConfig)
+const sgTransport = require('nodemailer-sendgrid-transport');
+// const transporter = nodemailer.createTransport(mailConfig)
 
+const mailTransporter = nodemailer.createTransport(sgTransport({
+    auth: {
+        api_key: process.env.ADMIN_EMAIL_API_KEY
+    }
+}))
 
 const mailer = (recipientsMail, text) => {
-    transporter.sendMail({
-        from: mailConfig.auth.user,
+    mailTransporter.sendMail({
+          from: 'Price Watcher ',
           to: recipientsMail,
-          subject: 'hello world!',
+          replyTo: 'pricewachterio@gmail.com',
+          subject: 'Price has changed',
           html: text
         }, (err, info) => {
             if(err)
