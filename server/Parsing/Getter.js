@@ -13,6 +13,8 @@ const getHtml = async (link) => {
 
   let bodyHTML = await page.evaluate(() => document.body.innerHTML);
 
+  await browser.close()
+
   return bodyHTML
 } 
 
