@@ -7,6 +7,7 @@ import AddLink from '../AddLink/AddLink';
 import LogOut from '../Logout/Logout';
 import { makeStyles } from '@material-ui/core/styles';
 import IState from '../../interfaces/state';
+import AddFail from './AddFailed';
 
 
 const useStyles = makeStyles({
@@ -31,6 +32,7 @@ const LinksBody = (props: IProps) => {
       {props.state.links.map((val: any) => {
         return <LinkItem props={val} />;
       })}
+      {props.state.addFailure ? <AddFail/> : null }
     </Container>
   );
 };

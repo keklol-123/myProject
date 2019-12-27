@@ -1,7 +1,8 @@
 import {
     ADD_LINK,
   DELETE_LINK,
-  LOAD_LINKS
+  LOAD_LINKS,
+  ADD_LINK_FAIL
 } from './types'
 
 interface IData {
@@ -27,9 +28,9 @@ export const addLink = (link: string, name: string) => (dispatch: any): void => 
       }).then(res => {
           if (res.status === 200)
             res.json().then(myresponse => {
-                console.log(myresponse)
                 dispatch({type: ADD_LINK, payload: myresponse.links})
             })
+            else if(res.status === 406) dispatch({type: ADD_LINK_FAIL});
       }).catch(err => {
           console.log(err)
       })
