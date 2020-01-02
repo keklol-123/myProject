@@ -5,7 +5,7 @@ import { App } from "./components/App";
 
 
 ReactDOM.render(
-    <App compiler="TypeScript" framework="React" />,
+    <App/>,
     document.getElementById("example")
 );
 

@@ -9,6 +9,7 @@ import {
   LOAD_LINKS,
   LOGOUT,
   LOGIN_FAILURE,
+  ADD_LINK_FAIL,
 } from '../actions/types';
 import IState from '../interfaces/state'
 
@@ -18,7 +19,8 @@ const initialState: IState = {
   links: null,
   registerSuccess:false,
   registerFailure: false,
-  loginFailure: false
+  loginFailure: false,
+  addFailure: false
 };
 
 export default function(state = initialState, action: any): IState {
@@ -31,7 +33,9 @@ export default function(state = initialState, action: any): IState {
         isAuthenticated: true,
         registerSuccess: false,
         registerFailure: false,
-        loginFailure: false
+        loginFailure: false,
+        addFailure: false
+
       };
     case REGISTER_SUCCESS:
       return {
@@ -48,7 +52,8 @@ export default function(state = initialState, action: any): IState {
         ...state,
         registerSuccess: false,
         registerFailure: false,
-        loginFailure: false
+        loginFailure: false,
+        addFailure: false
       };
     case CHECK_TOKEN_SUCCESS:
         return {
@@ -63,6 +68,11 @@ export default function(state = initialState, action: any): IState {
           ...state,
           links: action.payload
         }
+    case ADD_LINK_FAIL:
+      return{
+        ...state,
+        addFailure: true
+      }
     case LOGOUT: 
         return {
           token: localStorage.getItem('token'),
@@ -70,7 +80,8 @@ export default function(state = initialState, action: any): IState {
           links: null,
           registerSuccess:false,
           registerFailure: false,
-          loginFailure: false
+          loginFailure: false,
+          addFailure: false
         }
     case LOGIN_FAILURE:
       return {

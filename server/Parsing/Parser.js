@@ -79,4 +79,5 @@ const getPrice = async link => {
   }
 };
 
+
 module.exports = getPrice;
