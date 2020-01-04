@@ -3,26 +3,29 @@ const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const sslHeroku = require('heroku-ssl-redirect')
 
 const User = require('./UserScheme/User');
-const changeChecker = require('./ChangeChecker')
+const changeChecker = require('./ChangeChecker');
 
 const login = require('./api/routes/login');
 const signup = require('./api/routes/signup');
 const removeLink = require('./api/routes/removeLink');
 const addLink = require('./api/routes/addLink');
 const checkToken = require('./api/routes/checkToken');
-const loadLinks = require('./api/routes/loadLinks')
+const loadLinks = require('./api/routes/loadLinks');
 require('events').EventEmitter.defaultMaxListeners = 100;
-
 
 const app = express();
 
 app.use(cookieParser());
-app.use(bodyParser.json({
-  type: ['application/json', 'text/plain']
-}));
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(
+  bodyParser.json({
+    type: ['application/json', 'text/plain'],
+  }),
+);
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(sslHeroku())
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useUnifiedTopology', true);
@@ -33,7 +36,7 @@ app.use('/login', login);
 app.use('/checkToken', checkToken);
 app.use('/addlink', addLink);
 app.use('/removelink', removeLink);
-app.use('/loadlinks', loadLinks)
+app.use('/loadlinks', loadLinks);
 async function start() {
   try {
     await mongoose.connect(
@@ -43,7 +46,7 @@ async function start() {
         else console.log('Connected to DB');
       },
     );
-    app.listen(process.env.PORT ||3000);
+    app.listen(process.env.PORT || 3000);
   } catch (e) {
     console.log(e);
   }
@@ -54,8 +57,8 @@ User.collection.dropIndexes();
 // const checkChanges = require('./ChangeChecker/index')();
 
 setInterval(() => {
-  changeChecker()
-}, 1 * 60 * 1000)
+  changeChecker();
+}, 1 * 60 * 1000);
 
 app.use(express.static(__dirname + './../public'));
 
