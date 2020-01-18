@@ -14,7 +14,6 @@ const useStyles = makeStyles({
       backgroundColor: 'rgb(108, 138, 213)',
       height: '150px',
       width: '98%',
-      margin: '0px 0px',
       display: 'flex',
       borderRadius: '10px',
       justifyContent: 'center',
@@ -23,14 +22,18 @@ const useStyles = makeStyles({
       
     },
     head: {
+        marginTop:'20px',
         textAlign: 'center',
         size: '15px',
     },
     body: {
+        marginTop: '5px',
         textAlign:'left',
         size: '10px',
-        
-    }
+    },
+    list: {
+        marginTop: '0px',
+    },
   });
 
 
@@ -45,8 +48,7 @@ const SignupSuccess = (props: any) => {
                    Supported sites:
                    </Typography>
                    <Typography className={classes.body}>
-                   <ol>
-                   <li>aliexpress.com</li>
+                   <ol className={classes.list}> <li>aliexpress.com</li>
                    <li>wildberries.ru</li>
                    <li>amazon.com</li>
                    <li>ebay.com</li>
