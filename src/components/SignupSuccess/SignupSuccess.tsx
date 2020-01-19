@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   });
 
 
-const SignupSuccess = (props: any) => {
+const SignupSuccess = (props: IProps) => {
 
     // @ts-ignore
     const classes = useStyles();

@@ -8,7 +8,7 @@ import LinksBody from '../LinksBody/LinksBody'
 const Router = (props: any) => {
     return (
         <div>
-            {props.state.isAuthenticated ? <LinksBody/> : <SignIn />}
+            {props.state.checkingToken ? null :props.state.isAuthenticated ? <LinksBody/> : <SignIn />}
         </div>
     )
 }

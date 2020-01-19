@@ -5,7 +5,8 @@ import {
   CHECK_TOKEN_SUCCESS,
   LOGOUT,
   CLEAR_REGISTRATION_STATUS,
-  LOGIN_FAILURE
+  LOGIN_FAILURE,
+  CHECKING_TOKEN
 } from './types';
 
 export const loginUser = ({ email, password }: { email: string; password: string }): any => (dispatch: any): void => {
@@ -67,9 +68,13 @@ export const registerUser = ({
 type CheckTokenType = void | null;
 
 export const checkToken = (): any => (dispatch: any): CheckTokenType  => {
+  
   if (!localStorage.getItem('token')) {
     return;
   } else {
+    dispatch({
+      type: CHECKING_TOKEN
+    })
     const data = {
       token: localStorage.getItem('token'),
     };

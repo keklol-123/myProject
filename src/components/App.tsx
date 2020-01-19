@@ -8,7 +8,6 @@ import store from '../store'
 export class App extends React.Component<any> {
     
     render() {
-        console.log(store.getState())
          return (
             <Provider store={store}>
                 <Router />
