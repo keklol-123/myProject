@@ -12,4 +12,5 @@ export default interface IState {
     registerFailure: boolean;
     loginFailure: boolean;
     addFailure: boolean;
+    checkingToken?: boolean;
   }

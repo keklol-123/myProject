@@ -11,3 +11,4 @@ export const LOAD_LINKS: string = "LOAD_LINKS";
 export const LOGOUT: string = "LOGOUT";
 export const CLEAR_ERRORS: string = "CLEAR_ERRORS";
 export const ADD_LINK_FAIL: string = "ADD_LINK_FAIL";
+export const CHECKING_TOKEN: string = "CHECKING_TOKEN";

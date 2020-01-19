@@ -11,19 +11,29 @@ interface IProps {
 
 const useStyles = makeStyles({
     box: {
-      backgroundColor: 'rgb(83, 230, 149, 0.6)',
-      height: '36px',
+      backgroundColor: 'rgb(108, 138, 213)',
+      height: '150px',
       width: '98%',
-      margin: '0px 3px',
       display: 'flex',
       borderRadius: '10px',
       justifyContent: 'center',
       flexDirection: 'column',
-      textAlign: 'center'
+      
+      
     },
-    text: {
+    head: {
+        marginTop:'20px',
+        textAlign: 'center',
         size: '15px',
-    }
+    },
+    body: {
+        marginTop: '5px',
+        textAlign:'left',
+        size: '10px',
+    },
+    list: {
+        marginTop: '0px',
+    },
   });
 
 
@@ -32,14 +42,17 @@ const SignupSuccess = (props: IProps) => {
     // @ts-ignore
     const classes = useStyles();
 
-    const onCloseClick = () => {
-        props.clearErrors()
-    }
-    setTimeout(props.clearErrors, 3000)
     return (
-        <Box className={classes.box} onClick={onCloseClick}>
-            <Typography className={classes.text}>
-                   Successfully registered.
+        <Box className={classes.box} >
+            <Typography className={classes.head}>
+                   Supported sites:
+                   </Typography>
+                   <Typography className={classes.body}>
+                   <ol className={classes.list}> <li>aliexpress.com</li>
+                   <li>wildberries.ru</li>
+                   <li>amazon.com</li>
+                   <li>ebay.com</li>
+                   </ol>
                 </Typography>
         </Box>
     )

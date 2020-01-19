@@ -139,7 +139,7 @@ const SignIn = (props: any) => {
           label="Password"
           type="password"
           error id="password_not_valid"
-          helperText="Password must be greater then 6 characters"
+          helperText="Password must be at least 7 characters"
           autoComplete="current-password"
           onChange={onPasswordChange}
         />}

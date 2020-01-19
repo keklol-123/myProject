@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 import {addLink} from '../../actions/linksActions'
 import IState from '../../interfaces/state'
 import OnClickEvent from '../../interfaces/clickEvent'
+import Info from './LinkInfo';
 
 interface IProps {
   state: IState;
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'space-around',
       borderRadius: '5px',
       width: '450px',
-      height: '220px',
+      height: '375px',
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
     },
@@ -104,6 +105,7 @@ const useStyles = makeStyles((theme: Theme) =>
                     <AddToPhotosOutlinedIcon className={classes.extendedIcon} />
                      Add Link
                 </Fab>
+                <Info/>
             </div>
           </Fade>
         </Modal>
