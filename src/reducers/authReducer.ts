@@ -10,19 +10,19 @@ import {
   LOGOUT,
   LOGIN_FAILURE,
   ADD_LINK_FAIL,
-  CHECKING_TOKEN
+  CHECKING_TOKEN,
 } from '../actions/types';
-import IState from '../interfaces/state'
+import IState from '../interfaces/state';
 
 const initialState: IState = {
   token: localStorage.getItem('token'),
   isAuthenticated: false,
   links: null,
-  registerSuccess:false,
+  registerSuccess: false,
   registerFailure: false,
   loginFailure: false,
   addFailure: false,
-  checkingToken: false
+  checkingToken: false,
 };
 
 export default function(state = initialState, action: any): IState {
@@ -55,50 +55,50 @@ export default function(state = initialState, action: any): IState {
         registerSuccess: false,
         registerFailure: false,
         loginFailure: false,
-        addFailure: false
+        addFailure: false,
       };
-    case CHECKING_TOKEN: 
+    case CHECKING_TOKEN:
       return {
         ...state,
-        checkingToken: true
-      }
+        checkingToken: true,
+      };
     case CHECK_TOKEN_SUCCESS:
-        return {
-            ...state,
-            links: action.payload,
-            isAuthenticated: true,
-            checkingToken: false
-        } 
+      return {
+        ...state,
+        links: action.payload,
+        isAuthenticated: true,
+        checkingToken: false,
+      };
     case ADD_LINK:
     case DELETE_LINK:
-    case LOAD_LINKS: 
-        return {
-          ...state,
-          links: action.payload
-        }
-    case ADD_LINK_FAIL:
-      return{
+    case LOAD_LINKS:
+      return {
         ...state,
-        addFailure: true
-      }
-    case LOGOUT: 
-        return {
-          token: localStorage.getItem('token'),
-          isAuthenticated: false,
-          links: null,
-          registerSuccess:false,
-          registerFailure: false,
-          loginFailure: false,
-          addFailure: false
-        }
+        links: action.payload,
+      };
+    case ADD_LINK_FAIL:
+      return {
+        ...state,
+        addFailure: true,
+      };
+    case LOGOUT:
+      return {
+        token: localStorage.getItem('token'),
+        isAuthenticated: false,
+        links: null,
+        registerSuccess: false,
+        registerFailure: false,
+        loginFailure: false,
+        addFailure: false,
+      };
     case LOGIN_FAILURE:
       return {
         ...state,
-        loginFailure: true
-      }
-    default: 
-        return {
-            ...state
-        }
+        loginFailure: true,
+      };
+    default:
+      return {
+        ...state,
+      };
   }
 }

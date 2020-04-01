@@ -1,17 +1,15 @@
-import * as React from "react";
+import * as React from 'react';
 import SignIn from './Auth/Auth';
-import Router from './Router/Router'
-import {Provider} from 'react-redux';
-import store from '../store'
-
+import Router from './Router/Router';
+import { Provider } from 'react-redux';
+import store from '../store';
 
 export class App extends React.Component<any> {
-    
-    render() {
-         return (
-            <Provider store={store}>
-                <Router />
-            </Provider>
-            )
-    }
+  render() {
+    return (
+      <Provider store={store}>
+        <Router />
+      </Provider>
+    );
+  }
 }

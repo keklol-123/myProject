@@ -9,12 +9,10 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import { connect } from 'react-redux';
 import { loginUser, checkToken, registerUser } from '../../actions/authActions';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import LoginFail from '../LoginFail/LoginFail'
-import SignupSuccess from '../SignupSuccess/SignupSuccess'
-import SignupFailure from '../SignupFailure/SignupFailure'
-import IState from '../../interfaces/state'
- 
-
+import LoginFail from '../LoginFail/LoginFail';
+import SignupSuccess from '../SignupSuccess/SignupSuccess';
+import SignupFailure from '../SignupFailure/SignupFailure';
+import IState from '../../interfaces/state';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -40,7 +38,6 @@ const useStyles = makeStyles(theme => ({
   btnBody: {
     display: 'flex',
   },
-  
 }));
 
 const SignIn = (props: any) => {
@@ -57,29 +54,28 @@ const SignIn = (props: any) => {
   const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     changeEmail(e.target.value);
   };
-  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement> ): void => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     changePassword(e.target.value);
   };
   const isValidEmail = (): boolean => {
-    let emailValid: boolean = (/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i).test(email);
-    if (email === '')
-      return true;
+    let emailValid: boolean = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(email);
+    if (email === '') return true;
     return emailValid;
   };
-  const isPasswordValid = (): boolean =>{
-    let passwValid: boolean = (password.length > 6 || password.length === 0);
+  const isPasswordValid = (): boolean => {
+    let passwValid: boolean = password.length > 6 || password.length === 0;
     return passwValid;
-  }
+  };
 
   const onRegisterClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
     e.preventDefault();
-    if(isPasswordValid() && isValidEmail()) props.registerUser({ email, password });
+    if (isPasswordValid() && isValidEmail()) props.registerUser({ email, password });
   };
   const onLoginClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
     e.preventDefault();
-    if(isPasswordValid() && isValidEmail()) props.loginUser({ email, password });
+    if (isPasswordValid() && isValidEmail()) props.loginUser({ email, password });
   };
-  
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -93,61 +89,71 @@ const SignIn = (props: any) => {
         </Avatar>
 
         <form className={classes.form} noValidate>
-          {isValidEmail()?<TextField
-            id="email"
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            //id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={onEmailChange}
-          /> : <TextField
-          error id="email"
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          //id="email"
-          label="Email Address"
-          name="email"
-          autoComplete="email"
-          autoFocus
-          helperText="Email is not valid"
-          onChange={onEmailChange}
-        />}
-          {isPasswordValid() ? <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={onPasswordChange}
-          /> : <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          error id="password_not_valid"
-          helperText="Password must be at least 7 characters"
-          autoComplete="current-password"
-          onChange={onPasswordChange}
-        />}
-          
+          {isValidEmail() ? (
+            <TextField
+              id="email"
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              //id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={onEmailChange}
+            />
+          ) : (
+            <TextField
+              error
+              id="email"
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              //id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              helperText="Email is not valid"
+              onChange={onEmailChange}
+            />
+          )}
+          {isPasswordValid() ? (
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={onPasswordChange}
+            />
+          ) : (
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              error
+              id="password_not_valid"
+              helperText="Password must be at least 7 characters"
+              autoComplete="current-password"
+              onChange={onPasswordChange}
+            />
+          )}
+
           <div className={classes.btnBody}>
             <Button
               fullWidth
-              href='#'
+              href="#"
               variant="contained"
               color="primary"
               className={classes.submit}
@@ -157,7 +163,7 @@ const SignIn = (props: any) => {
             </Button>
             <Button
               fullWidth
-              href='#'
+              href="#"
               variant="contained"
               color="primary"
               className={classes.submit}
@@ -167,14 +173,12 @@ const SignIn = (props: any) => {
             </Button>
           </div>
         </form>
-        
       </div>
-      {props.state.loginFailure ?  <LoginFail/> : null}
-      {props.state.registerSuccess ? <SignupSuccess/> : null}
-      {props.state.registerFailure ? <SignupFailure/> : null}
+      {props.state.loginFailure ? <LoginFail /> : null}
+      {props.state.registerSuccess ? <SignupSuccess /> : null}
+      {props.state.registerFailure ? <SignupFailure /> : null}
     </Container>
   );
-
 };
 
 const mapStateToProps = (state: IState) => ({

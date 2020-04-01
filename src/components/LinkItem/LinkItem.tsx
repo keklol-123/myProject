@@ -11,7 +11,6 @@ import { deleteLink } from '../../actions/linksActions';
 import IState from '../../interfaces/state';
 import { ILink } from '../../interfaces/state';
 
-
 const useStyles = makeStyles({
   card: {
     minWidth: 275,
@@ -21,7 +20,7 @@ const useStyles = makeStyles({
     backgroundColor: '#dfe6f2',
   },
   cardContent: {
-    width: '150px'
+    width: '150px',
   },
   bullet: {
     display: 'inline-block',
@@ -57,17 +56,23 @@ function LinkItem(props: IProps) {
       <CardContent className={classes.cardContent}>
         <Typography>
           <a href={props.props.link} className={classes.link}>
-            {props.props.name ? props.props.name.length >= 15 ? props.props.name.slice(0, 14) : props.props.name : 'Link'}
+            {props.props.name
+              ? props.props.name.length >= 15
+                ? props.props.name.slice(0, 14)
+                : props.props.name
+              : 'Link'}
           </a>
         </Typography>
-       <Typography>Price {props.props.price}{pickCurrency(props.props.link)}</Typography>
-        </CardContent>
+        <Typography>
+          Price {props.props.price}
+          {pickCurrency(props.props.link)}
+        </Typography>
+      </CardContent>
       <CardActions>
         <Button size="small" onClick={onDeleteClick} variant="contained" color="secondary">
           Delete
         </Button>
-        </CardActions>
-        
+      </CardActions>
     </Card>
   );
 }
@@ -78,13 +83,8 @@ const mapStateToProps = (state: IState) => ({
 
 export default connect(mapStateToProps, { deleteLink })(LinkItem);
 
-
 const pickCurrency = (link: string): string => {
-   if (link.includes('amazon'))
-    return '$'
-   else if (link.includes('wildberries') || link.includes('aliexpress'))
-    return '₽'
-   else if (link.includes('ebay'))
-    return '$'
-   
-}
+  if (link.includes('amazon')) return '$';
+  else if (link.includes('wildberries') || link.includes('aliexpress')) return '₽';
+  else if (link.includes('ebay')) return '$';
+};

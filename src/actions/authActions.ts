@@ -6,10 +6,12 @@ import {
   LOGOUT,
   CLEAR_REGISTRATION_STATUS,
   LOGIN_FAILURE,
-  CHECKING_TOKEN
+  CHECKING_TOKEN,
 } from './types';
 
-export const loginUser = ({ email, password }: { email: string; password: string }): any => (dispatch: any): void => {
+export const loginUser = ({ email, password }: { email: string; password: string }): any => (
+  dispatch: any,
+): void => {
   const data = {
     email,
     password,
@@ -28,7 +30,7 @@ export const loginUser = ({ email, password }: { email: string; password: string
           dispatch({ type: LOGIN_SUCCESS, payload: myresponse });
         });
       else {
-        dispatch({ type: LOGIN_FAILURE})
+        dispatch({ type: LOGIN_FAILURE });
       }
     })
     .catch(err => {
@@ -36,13 +38,9 @@ export const loginUser = ({ email, password }: { email: string; password: string
     });
 };
 
-export const registerUser = ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}): any => (dispatch: any): void => {
+export const registerUser = ({ email, password }: { email: string; password: string }): any => (
+  dispatch: any,
+): void => {
   const data = {
     email: email,
     password: password,
@@ -67,14 +65,13 @@ export const registerUser = ({
 
 type CheckTokenType = void | null;
 
-export const checkToken = (): any => (dispatch: any): CheckTokenType  => {
-  
+export const checkToken = (): any => (dispatch: any): CheckTokenType => {
   if (!localStorage.getItem('token')) {
     return;
   } else {
     dispatch({
-      type: CHECKING_TOKEN
-    })
+      type: CHECKING_TOKEN,
+    });
     const data = {
       token: localStorage.getItem('token'),
     };
@@ -94,18 +91,16 @@ export const checkToken = (): any => (dispatch: any): CheckTokenType  => {
 };
 
 interface ActionResult {
-  type: string
+  type: string;
 }
 
 export const clearErrors: any = (): ActionResult => {
-  return { type: CLEAR_REGISTRATION_STATUS}
-}
+  return { type: CLEAR_REGISTRATION_STATUS };
+};
 
-
-export const logout = () : ActionResult => {
-  if (localStorage.getItem('token'))
-    localStorage.removeItem('token');
+export const logout = (): ActionResult => {
+  if (localStorage.getItem('token')) localStorage.removeItem('token');
   return {
-    type: LOGOUT
-  }
-}
+    type: LOGOUT,
+  };
+};

@@ -1,27 +1,27 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import {connect} from 'react-redux'
-import {logout} from '../../actions/authActions'
+import { connect } from 'react-redux';
+import { logout } from '../../actions/authActions';
 import IState from '../../interfaces/state';
 
 interface IProps {
   state: IState;
-  logout: () => void
+  logout: () => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     btn: {
-        position: 'fixed',
-        top: '10px',
-        left: '10px'
+      position: 'fixed',
+      top: '10px',
+      left: '10px',
     },
   }),
 );
 
-const LogOut = (props : IProps) => {
-    //@ts-ignore
+const LogOut = (props: IProps) => {
+  //@ts-ignore
   const classes = useStyles();
   const onClick = (): void => {
     props.logout();
@@ -33,9 +33,8 @@ const LogOut = (props : IProps) => {
   );
 };
 
-
 const mapStateToProps = (state: any) => ({
-    state: state,
-  }); 
+  state: state,
+});
 
-export default connect(mapStateToProps, {logout})(LogOut)
+export default connect(mapStateToProps, { logout })(LogOut);
