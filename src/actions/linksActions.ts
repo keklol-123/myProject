@@ -1,4 +1,5 @@
 import { ADD_LINK, DELETE_LINK, LOAD_LINKS, ADD_LINK_FAIL } from './types';
+import { Dispatch } from 'redux';
 
 interface IData {
   token: string;
@@ -7,7 +8,7 @@ interface IData {
   name?: string;
 }
 
-export const addLink = (link: string, name: string) => (dispatch: any): void => {
+export const addLink = (link: string, name: string) => (dispatch: Dispatch<any>): void => {
   const data: IData = {
     newLink: link,
     name: name,
@@ -34,7 +35,7 @@ export const addLink = (link: string, name: string) => (dispatch: any): void => 
     });
 };
 
-export const deleteLink = (link: string) => (dispatch: any): void => {
+export const deleteLink = (link: string) => (dispatch: Dispatch<any>): void => {
   const data: IData = {
     token: localStorage.getItem('token'),
     linkToRemove: link,
@@ -60,7 +61,7 @@ export const deleteLink = (link: string) => (dispatch: any): void => {
     });
 };
 
-export const loadLinks = () => (dispatch: any) => {
+export const loadLinks = () => (dispatch: Dispatch<any>) => {
   const data: IData = {
     token: localStorage.getItem('token'),
   };
@@ -78,6 +79,5 @@ export const loadLinks = () => (dispatch: any) => {
           dispatch({ type: LOAD_LINKS, payload: myresponse.links });
         });
     })
-    .catch(err => {
-    });
+    .catch(err => {});
 };

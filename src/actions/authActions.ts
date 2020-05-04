@@ -8,9 +8,10 @@ import {
   LOGIN_FAILURE,
   CHECKING_TOKEN,
 } from './types';
+import { Dispatch } from 'redux';
 
-export const loginUser = ({ email, password }: { email: string; password: string }): any => (
-  dispatch: any,
+export const loginUser = ({ email, password }: { email: string; password: string }) => (
+  dispatch: Dispatch<any>,
 ): void => {
   const data = {
     email,
@@ -38,8 +39,8 @@ export const loginUser = ({ email, password }: { email: string; password: string
     });
 };
 
-export const registerUser = ({ email, password }: { email: string; password: string }): any => (
-  dispatch: any,
+export const registerUser = ({ email, password }: { email: string; password: string }) => (
+  dispatch: Dispatch<any>,
 ): void => {
   const data = {
     email: email,
@@ -65,7 +66,7 @@ export const registerUser = ({ email, password }: { email: string; password: str
 
 type CheckTokenType = void | null;
 
-export const checkToken = (): any => (dispatch: any): CheckTokenType => {
+export const checkToken = () => (dispatch: Dispatch<any>): CheckTokenType => {
   if (!localStorage.getItem('token')) {
     return;
   } else {
@@ -94,7 +95,7 @@ interface ActionResult {
   type: string;
 }
 
-export const clearErrors: any = (): ActionResult => {
+export const clearErrors = (): ActionResult => {
   return { type: CLEAR_REGISTRATION_STATUS };
 };
 

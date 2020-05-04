@@ -8,7 +8,7 @@ import Container from '@material-ui/core/Container';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import { connect } from 'react-redux';
 import { loginUser, checkToken, registerUser } from '../../actions/authActions';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import LoginFail from '../LoginFail/LoginFail';
 import SignupSuccess from '../SignupSuccess/SignupSuccess';
 import SignupFailure from '../SignupFailure/SignupFailure';
@@ -40,7 +40,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignIn = (props: any) => {
+interface Props {
+  state: IState;
+  checkToken: () => void;
+  loginUser: ({ email, password }: { email: string; password: string }) => void;
+  registerUser: ({ email, password }: { email: string; password: string }) => void;
+}
+
+const SignIn = (props: Props) => {
   const [email, changeEmail] = useState<string>('');
   const [password, changePassword] = useState<string>('');
 

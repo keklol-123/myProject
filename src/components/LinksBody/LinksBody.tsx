@@ -27,7 +27,7 @@ const LinksBody = (props: IProps) => {
     <Container className={classes.main}>
       <LogOut />
       <AddLink />
-      {props.state.links.map((val: any) => {
+      {props.state.links.map(val => {
         return <LinkItem props={val} />;
       })}
       {props.state.addFailure ? <AddFail /> : null}
@@ -35,7 +35,7 @@ const LinksBody = (props: IProps) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: IState) => ({
   state: state,
 });
 

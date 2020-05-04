@@ -33,7 +33,7 @@ const LogOut = (props: IProps) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: IState) => ({
   state: state,
 });
 

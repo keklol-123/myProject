@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const sslHeroku = require('heroku-ssl-redirect')
+const sslHeroku = require('heroku-ssl-redirect');
 
 const User = require('./UserScheme/User');
 const changeChecker = require('./ChangeChecker');
@@ -25,7 +25,7 @@ app.use(
   }),
 );
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(sslHeroku())
+app.use(sslHeroku());
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useUnifiedTopology', true);
@@ -54,7 +54,7 @@ async function start() {
 
 start();
 User.collection.dropIndexes();
-// const checkChanges = require('./ChangeChecker/index')();
+const checkChanges = require('./ChangeChecker/index');
 
 setInterval(() => {
   changeChecker();

@@ -4,7 +4,7 @@ import Router from './Router/Router';
 import { Provider } from 'react-redux';
 import store from '../store';
 
-export class App extends React.Component<any> {
+export class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
